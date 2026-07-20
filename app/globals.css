@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   DESIGN TOKENS
+   Built around Mike's actual brand: the light teal from his logo, set on a
+   clean white page, with deep navy doing the work of text, header, and footer.
+   Teal is the action color; navy is the voice.
+--------------------------------------------------------------------------- */
+@theme {
+  /* Teal — sampled from the logo's lettering */
+  --color-teal-100: #e3f6f6;
+  --color-teal-200: #bdeaea;
+  --color-teal-300: #7ad1d1; /* the logo tone — accents on dark backgrounds */
+  --color-teal-500: #2aa5a5; /* primary buttons/links on white (readable) */
+  --color-teal-600: #218b8b;
+  --color-teal-700: #1b7373;
+
+  /* Navy — header, footer, headings, body text */
+  --color-navy-950: #0b1a2b;
+  --color-navy-900: #10233a; /* header / footer */
+  --color-navy-800: #18324f;
+  --color-navy-700: #22456c;
+
+  --color-mist: #f2f8f8;   /* soft teal-tinted alternate section background */
+  --color-ink: #16283c;    /* body text = navy */
+  --color-ink-soft: #4f6377;
+  --color-line: #dfe9ec;
+
+  --font-display: "Quicksand", "Avenir", system-ui, sans-serif;
+  --font-sans: "Nunito Sans", system-ui, -apple-system, sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+   BASE
+--------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    background-color: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    line-height: 1.12;
+    color: var(--color-navy-900);
+  }
+  ::selection {
+    background: var(--color-teal-300);
+    color: var(--color-navy-950);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-teal-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   COMPONENTS
+--------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.975rem;
+  line-height: 1;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  transition: transform 0.12s ease, background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--color-teal-500);
+  color: #ffffff;
+}
+.btn-primary:hover { background: var(--color-teal-600); }
+
+.btn-navy {
+  background: var(--color-navy-900);
+  color: #ffffff;
+}
+.btn-navy:hover { background: var(--color-navy-800); }
+
+.btn-outline {
+  border: 1.5px solid currentColor;
+  background: transparent;
+}
+.btn-outline-light { color: #fff; }
+.btn-outline-light:hover { background: rgba(255, 255, 255, 0.14); }
+.btn-outline-navy { color: var(--color-navy-900); }
+.btn-outline-navy:hover { background: rgba(16, 35, 58, 0.06); }
+
+/* Eyebrow above headings */
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-teal-600);
+}
+
+/* Quiet price line ("Call for pricing" until Mike fills prices in) */
+.price {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-teal-600);
+}
+
+/* Category tiles: black & white until hovered, like Mike's current site.
+   Devices without hover (phones) just show color. */
+@media (hover: hover) {
+  .tile img {
+    filter: grayscale(1);
+    transition: filter 0.45s ease, transform 0.6s ease;
+  }
+  .tile:hover img,
+  .tile:focus-visible img {
+    filter: grayscale(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
