@@ -219,7 +219,7 @@ export const inflatablesPage = {
     {
       name: "Bounce Houses",
       blurb: "The classic. Clean, colorful, and always the kids' favorite corner of the party.",
-      photo: photos.inflatables.a,
+      photo: photos.inflatables.b,
       price: null,
     },
     {
@@ -237,7 +237,7 @@ export const inflatablesPage = {
     {
       name: "Slip & Slides",
       blurb: "A backyard water-park lane. Pairs perfectly with a water slide.",
-      photo: photos.inflatables.b,
+      photo: photos.inflatables.a,
       price: null,
     },
   ] as RentalItem[],
