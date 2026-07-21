@@ -18,6 +18,9 @@ function FbIcon() {
 }
 
 export default function Footer() {
+  const phoneWord = business.phoneDisplay.slice(business.phoneDisplay.lastIndexOf("-") + 1);
+  const phonePrefix = business.phoneDisplay.slice(0, business.phoneDisplay.lastIndexOf("-") + 1);
+
   return (
     <footer>
       {/* Photo strip — the touch from his current footer Gavin liked */}
@@ -37,7 +40,13 @@ export default function Footer() {
             {business.address}
           </a>
           <a href={`tel:${business.phoneDial}`} className="font-display font-bold text-navy-900 transition-colors hover:text-teal-600">
-            {business.phoneDisplay} <span className="block text-xs font-normal tracking-[0.3em] text-ink-soft">{business.phoneDigits}</span>
+            {phonePrefix}
+            <span className="relative inline-block">
+              {phoneWord}
+              <span className="absolute left-1 top-full whitespace-nowrap text-xs font-normal tracking-[0.3em] text-ink-soft">
+                {business.phoneDigits}
+              </span>
+            </span>
           </a>
           <a href={`mailto:${business.email}`} className="text-sm text-ink-soft transition-colors hover:text-teal-600">
             {business.email}
@@ -51,9 +60,9 @@ export default function Footer() {
       {/* Navy bottom */}
       <div className="bg-navy-900">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-10 md:flex-row md:justify-between">
-          <a href="/" aria-label={business.name}>
+          <a href="/" aria-label={business.name} className="flex h-12 items-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={photos.logo} alt={business.name} className="h-12 w-auto" />
+            <img src={photos.logo} alt={business.name} className="h-20 w-auto" />
           </a>
 
           <nav className="flex flex-wrap justify-center gap-x-7 gap-y-2">

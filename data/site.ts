@@ -44,7 +44,7 @@ export const photos = {
     new2: `${U}/2026/04/image1.jpeg`,
     new3: `${U}/2026/04/image2.jpeg`,
     new4: `${U}/2026/04/image3.jpeg`,
-    old1: `${U}/2022/02/web-tents-1.jpg`,
+    old1: `${U}/2022/01/web-slide-1.jpg`,
     old2: `${U}/2022/02/web-tents-2.jpg`,
     old3: `${U}/2022/02/web-tents-3.jpg`,
   },
@@ -53,6 +53,7 @@ export const photos = {
     b: `${U}/2022/02/web-inflatables-2.jpg`,
     c: `${U}/2022/02/web-inflatables-3.jpg`,
     d: `${U}/2022/02/web-inflatables-4.jpg`,
+    e: `${U}/2022/01/web-slide-2.jpg`, // pirate 
     bull: `${U}/2026/04/web_mech-bull-2.jpeg`,
   },
   lounge: {
@@ -84,11 +85,12 @@ export const navAll = [...navLeft, ...navRight];
 
 // --- Home: hero carousel ----------------------------------------------------
 export const heroSlides = [
-  { photo: photos.tents.new1, alt: "High-peak tent set for a backyard party" },
-  { photo: photos.tents.new2, alt: "Tent with tables and chairs ready for guests" },
-  { photo: photos.inflatables.d, alt: "Inflatable water slide at a summer party" },
-  { photo: photos.lounge.b, alt: "High-top tables and stools around a pool" },
   { photo: photos.tents.old1, alt: "Event tent rental on Long Island" },
+  { photo: photos.inflatables.e, alt: "Pirate ship inflatable water slide" },
+  { photo: photos.tents.new1, alt: "High-peak tent set for a backyard party" },
+  { photo: photos.tents.new3, alt: "Tent with tables and chairs ready for guests" },
+  { photo: photos.lounge.b, alt: "High-top tables and stools around a pool" },
+  { photo: photos.inflatables.c, alt: "Inflatable water slide at a summer party" },
 ];
 
 export const hero = {
@@ -102,19 +104,19 @@ export const categoryTiles = [
   {
     name: "Tents",
     href: "/tents",
-    photo: photos.tents.new4,
+    photo: photos.tents.old1,
     blurb: "Five sizes, from backyard birthdays to full tented events.",
   },
   {
     name: "Inflatables",
     href: "/inflatables",
-    photo: photos.inflatables.d,
+    photo: photos.inflatables.e,
     blurb: "Bounce houses, water slides, dunk tanks — and the mechanical bull.",
   },
   {
     name: "Lounge & Decor",
     href: "/lounge-decor",
-    photo: photos.lounge.b,
+    photo: photos.lounge.c,
     blurb: "Tables, chairs, linens, lighting, and LED lounge pieces.",
   },
 ];
@@ -223,25 +225,19 @@ export const inflatablesPage = {
     {
       name: "Water Slides",
       blurb: "Big slides for hot Long Island summers — graduation party essential.",
-      photo: photos.inflatables.d,
+      photo: photos.inflatables.c,
       price: null,
     },
     {
       name: "Obstacle Courses",
       blurb: "Head-to-head races through tunnels, walls, and slides. Great for all ages.",
-      photo: photos.inflatables.b,
+      photo: photos.inflatables.d,
       price: null,
     },
     {
       name: "Slip & Slides",
       blurb: "A backyard water-park lane. Pairs perfectly with a water slide.",
-      photo: photos.inflatables.c,
-      price: null,
-    },
-    {
-      name: "Dunk Tanks",
-      blurb: "Fundraiser and block-party favorite. Somebody's going in.",
-      photo: null,
+      photo: photos.inflatables.b,
       price: null,
     },
   ] as RentalItem[],
@@ -250,6 +246,7 @@ export const inflatablesPage = {
     photos.inflatables.b,
     photos.inflatables.c,
     photos.inflatables.d,
+    photos.inflatables.e,
   ],
 };
 
@@ -295,19 +292,19 @@ export const loungePage = {
     {
       name: "High-Top Tables & Stools",
       blurb: "Cocktail-height tables that keep the crowd mingling.",
-      photo: photos.lounge.b,
+      photo: photos.lounge.c,
       price: null,
     },
     {
       name: "Chairs",
       blurb: "Clean white folding chairs, delivered and set up with your tables.",
-      photo: photos.lounge.k,
+      photo: photos.tents.new4,
       price: null,
     },
     {
       name: "Table Linens",
       blurb: "Linens in the colors of your event, fitted to every table size.",
-      photo: photos.lounge.f,
+      photo: photos.lounge.b,
       price: null,
     },
     {
@@ -325,7 +322,7 @@ export const loungePage = {
     {
       name: "Event Lighting",
       blurb: "String lights and uplighting under the tent and around the yard.",
-      photo: photos.lounge.i,
+      photo: photos.tents.new3,
       price: null,
     },
   ] as RentalItem[],
