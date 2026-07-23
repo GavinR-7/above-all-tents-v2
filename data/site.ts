@@ -69,6 +69,7 @@ export const photos = {
     j: `${U}/2022/05/web-20200218_173217.jpg`,
     k: `${U}/2022/05/web-20200218_173210.jpg`,
     l: `${U}/2022/05/web-20200218_173201.jpg`,
+    m: "/dance-floor.jpg",
   },
 };
 
@@ -323,6 +324,12 @@ export const loungePage = {
       name: "Event Lighting",
       blurb: "String lights and uplighting under the tent and around the yard.",
       photo: photos.tents.new3,
+      price: null,
+    },
+    {
+      name: "DJ Floor",
+      blurb: "A professional dance floor laid out cleanly underneath the tent for the party.",
+      photo: photos.lounge.m,
       price: null,
     },
   ] as RentalItem[],
