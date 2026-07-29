@@ -30,7 +30,7 @@ export default function TentsPage() {
                 <span className="text-sm text-ink-soft">{t.sqft} sq ft</span>
               </div>
               <p className="mt-2 text-[0.95rem] text-ink-soft">
-                Fits {t.tables} round tables — seats {t.seatsRec} comfortably, up to {t.seatsMax}.
+                Fits {t.tables} round tables — seats up to {t.seatsMax}.
               </p>
               <p className="price mt-4">{t.price ?? CALL_FOR_PRICING}</p>
             </div>

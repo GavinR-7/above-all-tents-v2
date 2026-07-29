@@ -134,15 +134,14 @@ export const about = {
 // TENTS
 // ============================================================================
 // Capacity math (confirmed): each tent fits ~1 round table per 100 sq ft.
-// We recommend 8 chairs per table; each table can fit up to 10.
-// `seatsRec` = tables × 8, `seatsMax` = tables × 10.
+// Each table can fit up to 10.
+// `seatsMax` = tables × 10.
 export type Tent = {
   size: string;
   w: number;
   l: number;
   sqft: number;
   tables: number;
-  seatsRec: number;
   seatsMax: number;
   price: string | null;
 };
@@ -153,7 +152,6 @@ const t = (w: number, l: number, tables: number): Tent => ({
   l,
   sqft: w * l,
   tables,
-  seatsRec: tables * 8,
   seatsMax: tables * 10,
   price: null,
 });
@@ -196,7 +194,7 @@ export const tentPage = {
 
 export const calculatorCopy = {
   title: "What size tent do you need?",
-  sub: "We recommend 8 chairs per table for comfort — each table can fit up to 10.",
+  sub: "Each table can fit up to 10 chairs",
   overflow:
     "For bigger parties we combine tents to cover everyone — here's what we'd suggest:",
   callLine: "Every yard is different — call and we'll plan the exact layout with you.",
@@ -280,7 +278,7 @@ export const loungePage = {
   items: [
     {
       name: "Round Tables",
-      blurb: "Seats 8 comfortably, up to 10. The standard for dinners and parties.",
+      blurb: "Seats 10. The standard for dinners and parties.",
       photo: photos.lounge.a,
       price: null,
     },

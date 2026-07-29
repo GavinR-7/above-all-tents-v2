@@ -113,8 +113,7 @@ export default function SizingCalculator() {
               </p>
               <p className="mt-1 text-sm text-ink-soft">
                 {combo.reduce((n, c) => n + c.tent.tables * c.count, 0)} tables ·{" "}
-                {combo.reduce((n, c) => n + c.tent.seatsRec * c.count, 0)} seats (up to{" "}
-                {combo.reduce((n, c) => n + c.tent.seatsMax * c.count, 0)})
+                {combo.reduce((n, c) => n + c.tent.seatsMax * c.count, 0)} seats
               </p>
             </div>
           </div>
@@ -153,9 +152,7 @@ export default function SizingCalculator() {
                   </div>
                   <div className="flex justify-between">
                     <dt>Seats</dt>
-                    <dd className="font-bold text-navy-900">
-                      {t.seatsRec} <span className="font-normal text-ink-soft">(up to {t.seatsMax})</span>
-                    </dd>
+                    <dd className="font-bold text-navy-900">{t.seatsMax}</dd>
                   </div>
                 </dl>
               </div>
