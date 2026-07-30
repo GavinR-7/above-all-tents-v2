@@ -35,7 +35,7 @@ export const CALL_FOR_PRICING = "Call for pricing";
 // --- Photos (all real, from Mike's current site) ----------------------------
 // ⚠️ Hotlinked from the live site so everything shows real photos today.
 // Before his old site comes down, download these into /public and swap paths.
-const U = "https://abovealltents.com/wp-content/uploads";
+const U = "/img";
 
 export const photos = {
   logo: `${U}/2022/01/above-all-tent-rentals-logo-invert.svg`, // white + teal, for dark backgrounds
