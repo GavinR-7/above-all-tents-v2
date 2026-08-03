@@ -32,34 +32,43 @@ export const business = {
 
 export const CALL_FOR_PRICING = "Call for pricing";
 
-// --- Photos (all real, from Mike's current site) ----------------------------
-// ⚠️ Hotlinked from the live site so everything shows real photos today.
-// Before his old site comes down, download these into /public and swap paths.
+// --- Photos (all real) ----------------------------
+// Photos downloaded into /public.
 const U = "/img";
 
 export const photos = {
   logo: `${U}/2022/01/above-all-tent-rentals-logo-invert.svg`, // white + teal, for dark backgrounds
   tents: {
-    new1: `${U}/2026/04/image0.jpeg`,
-    new2: `${U}/2026/04/image1.jpeg`,
-    new3: `${U}/2026/04/image2.jpeg`,
-    new4: `${U}/2026/04/image3.jpeg`,
-    old1: `${U}/2022/01/web-slide-1.jpg`,
-    old2: `${U}/2022/02/web-tents-2.jpg`,
-    old3: `${U}/2022/02/web-tents-3.jpg`,
+    old1: `${U}/2022/01/web-slide-1.jpg`, // Mikes house
+    old2: `${U}/2022/02/web-tents-2.jpg`, // tent, chairs, tables, linens
+    old3: `${U}/2022/02/web-tents-3.jpg`, // just 2 tents
+    new1: `${U}/2026/04/image0.jpeg`, // Nice tents and dance floor, tables chairs
+    new2: `${U}/2026/04/image1.jpeg`, // tents, tables, chairs, blurry
+    new3: `${U}/2026/04/image2.jpeg`, // !Nice tents, lights, red linens
+    new4: `${U}/2026/04/image19.jpeg`, // Tent and side walls
+    new5: `${U}/2026/04/image8.jpeg`, // tents and chairs on road, barrels, cinder blocks
+    new6: `${U}/2026/04/image20.jpeg`, // tent with tables and barrel
+    new7: `${U}/2026/04/image25.jpeg`, // tents, tables, chairs, linens
+
   },
   inflatables: {
-    a: `${U}/2022/02/web-inflatables-1.jpg`,
-    b: `${U}/2022/02/web-inflatables-2.jpg`,
-    c: `${U}/2022/02/web-inflatables-3.jpg`,
-    d: `${U}/2022/02/web-inflatables-4.jpg`,
-    e: `${U}/2022/01/web-slide-2.jpg`, // pirate 
-    bull: `${U}/2026/04/web_mech-bull-2.jpeg`,
+    a: `${U}/2022/02/web-inflatables-1.jpg`, // obsticle
+    b: `${U}/2022/02/web-inflatables-2.jpg`, // bouncy house
+    c: `${U}/2022/02/web-inflatables-3.jpg`, // basic water slide
+    d: `${U}/2022/02/web-inflatables-4.jpg`, // obsticle course
+    e: `${U}/2022/01/web-slide-2.jpg`, // pirate ship
+    f: `${U}/2026/04/image6.jpeg`, // bouncy house
+    g: `${U}/2026/04/image7.jpeg`, // obstacle course 
+    h: `${U}/2026/04/image9.jpeg`, // bouncy house
+    i: `${U}/2026/04/image23.jpeg`, // water slide, palm tree
+
+    bull0: `${U}/2026/04/image5.jpeg`, // brown bull
+    bull1: `${U}/2026/04/image4.jpeg`, // red bull
   },
   lounge: {
-    a: `${U}/2022/02/web-lounge-decor-1.jpg`,
-    b: `${U}/2022/02/web-lounge-decor-2.jpg`,
-    c: `${U}/2022/02/web-lounge-decor-3.jpg`,
+    a: `${U}/2022/02/web-lounge-decor-1.jpg`, // just round table and chairs
+    b: `${U}/2022/02/web-lounge-decor-2.jpg`, // tables, chairs, linens, tent
+    c: `${U}/2022/02/web-lounge-decor-3.jpg`, // high chairs, light boxes
     d: `${U}/2022/05/web-Screenshot_20210707-203131_Photos.jpg`,
     e: `${U}/2022/05/web-Screenshot_20201008-233514_Messages.jpg`,
     f: `${U}/2022/05/web-IMG_20220327_101732.jpg`,
@@ -69,7 +78,11 @@ export const photos = {
     j: `${U}/2022/05/web-20200218_173217.jpg`,
     k: `${U}/2022/05/web-20200218_173210.jpg`,
     l: `${U}/2022/05/web-20200218_173201.jpg`,
-    m: "/dance-floor.jpg",
+    m: `${U}/2026/04/image17.jpeg`, // Dance Floor
+    n: `${U}/2026/04/image13.jpeg`, // !Nice wedding chairs
+    o: `${U}/2026/04/image14.jpeg`, // !Nice few wedding chairs
+    p: `${U}/2026/04/image16.jpeg`, // high tables with linens
+    q: `${U}/2026/04/image22.jpeg`, // wedding dinner, tables, linens, chairs
   },
 };
 
@@ -87,10 +100,11 @@ export const navAll = [...navLeft, ...navRight];
 // --- Home: hero carousel ----------------------------------------------------
 export const heroSlides = [
   { photo: photos.tents.old1, alt: "Event tent rental on Long Island" },
-  { photo: photos.inflatables.e, alt: "Pirate ship inflatable water slide" },
+  { photo: photos.inflatables.f, alt: "Inflatable bouncy castle" },
+  //{ photo: photos.inflatables.i, alt: "Palm Tree inflatable water slide" },
   { photo: photos.tents.new1, alt: "High-peak tent set for a backyard party" },
   { photo: photos.tents.new3, alt: "Tent with tables and chairs ready for guests" },
-  { photo: photos.lounge.b, alt: "High-top tables and stools around a pool" },
+  { photo: photos.lounge.c, alt: "High-top tables and stools around a pool" },
   { photo: photos.inflatables.c, alt: "Inflatable water slide at a summer party" },
 ];
 
@@ -111,7 +125,7 @@ export const categoryTiles = [
   {
     name: "Inflatables",
     href: "/inflatables",
-    photo: photos.inflatables.e,
+    photo: photos.inflatables.g,
     blurb: "Bounce houses, water slides, dunk tanks — and the mechanical bull.",
   },
   {
@@ -186,6 +200,9 @@ export const tentPage = {
     photos.tents.new2,
     photos.tents.new3,
     photos.tents.new4,
+    photos.tents.new5,
+    photos.tents.new6,
+    photos.tents.new7,
     photos.tents.old1,
     photos.tents.old2,
     photos.tents.old3,
@@ -194,7 +211,7 @@ export const tentPage = {
 
 export const calculatorCopy = {
   title: "What size tent do you need?",
-  sub: "Each table can fit up to 10 chairs",
+  sub: "Each round table seats 10 guests",
   overflow:
     "For bigger parties we combine tents to cover everyone — here's what we'd suggest:",
   callLine: "Every yard is different — call and we'll plan the exact layout with you.",
@@ -218,19 +235,19 @@ export const inflatablesPage = {
     {
       name: "Bounce Houses",
       blurb: "The classic. Clean, colorful, and always the kids' favorite corner of the party.",
-      photo: photos.inflatables.b,
+      photo: photos.inflatables.f,
       price: null,
     },
     {
       name: "Water Slides",
       blurb: "Big slides for hot Long Island summers — graduation party essential.",
-      photo: photos.inflatables.c,
+      photo: photos.inflatables.i,
       price: null,
     },
     {
       name: "Obstacle Courses",
       blurb: "Head-to-head races through tunnels, walls, and slides. Great for all ages.",
-      photo: photos.inflatables.d,
+      photo: photos.inflatables.g,
       price: null,
     },
     {
@@ -245,7 +262,10 @@ export const inflatablesPage = {
     photos.inflatables.b,
     photos.inflatables.c,
     photos.inflatables.d,
-    photos.inflatables.e,
+    photos.inflatables.f,
+    photos.inflatables.g,
+    photos.inflatables.h,
+    photos.inflatables.i,
   ],
 };
 
@@ -260,12 +280,12 @@ export const bull = {
     "Professional operator included",
     "Fun for all ages",
     "Big inflatable safety arena",
-    "Cleaned & inspected before every event",
+    "Cleaned & inspected before use",
     "Delivery, setup & takedown handled",
   ],
   note: "Weekends book fast — especially in summer.",
   price: null as string | null,
-  photo: photos.inflatables.bull,
+  photo: photos.inflatables.bull0,
 };
 
 // ============================================================================
@@ -285,19 +305,31 @@ export const loungePage = {
     {
       name: "Banquet Tables",
       blurb: "Long tables for buffets, gifts, or family-style seating.",
-      photo: photos.lounge.j,
+      photo: photos.lounge.q,
       price: null,
     },
     {
-      name: "High-Top Tables & Stools",
+      name: "High-Top Tables",
       blurb: "Cocktail-height tables that keep the crowd mingling.",
+      photo: photos.lounge.p,
+      price: null,
+    },
+    {
+      name: "Stools and Light boxes",
+      blurb: "White stools that pair with high-tops, plus glowing light boxes for evening events.",
       photo: photos.lounge.c,
+      price: null,
+    },
+    {
+      name: "Wedding Chairs",
+      blurb: "Padded white wood folding chairs with a clean, finished look — the upgrade for weddings and formal events.",
+      photo: photos.lounge.o,
       price: null,
     },
     {
       name: "Chairs",
       blurb: "Clean white folding chairs, delivered and set up with your tables.",
-      photo: photos.tents.new4,
+      photo: photos.tents.new7,
       price: null,
     },
     {
@@ -333,7 +365,9 @@ export const loungePage = {
   ] as RentalItem[],
   note: "Don't see what you're looking for? Ask — if we don't have it, we'll help you find it.",
   gallery: [
-    photos.lounge.d,
+    photos.lounge.a,
+    photos.lounge.b,
+    photos.lounge.c,
     photos.lounge.e,
     photos.lounge.f,
     photos.lounge.g,
@@ -342,7 +376,12 @@ export const loungePage = {
     photos.lounge.j,
     photos.lounge.k,
     photos.lounge.l,
-    photos.lounge.c,
+    photos.lounge.m,
+    photos.lounge.n,
+    photos.lounge.o,
+    photos.lounge.p,
+    photos.lounge.q,
+
   ],
 };
 
@@ -386,8 +425,8 @@ export const contactCopy = {
 
 // --- Footer photo strip (like his current site) -----------------------------
 export const footerStrip = [
-  photos.tents.old3,
-  photos.inflatables.b,
+  photos.tents.new6,
+  photos.inflatables.f,
   photos.lounge.a,
-  photos.inflatables.d,
+  photos.inflatables.i,
 ];

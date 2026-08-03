@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { PageHero, Gallery, CtaBand } from "@/components/PageBlocks";
+import { PageHero, CtaBand } from "@/components/PageBlocks";
 import SizingCalculator from "@/components/SizingCalculator";
 import { CALL_FOR_PRICING, photos, tentPage, tents } from "@/data/site";
+import GalleryLightbox from "@/components/GalleryLightbox";
 
 export const metadata: Metadata = {
   title: "Tent Rentals | Above All Tent Rentals - Long Island",
@@ -62,7 +63,7 @@ export default function TentsPage() {
         </div>
       </section>
 
-      <Gallery photos={tentPage.gallery} title="Tents we've set up" />
+      <GalleryLightbox photos={tentPage.gallery} title="Tents we've set up" />
       <CtaBand />
     </main>
   );

@@ -10,21 +10,38 @@ const labelCls = "block text-sm font-bold text-navy-900";
 export default function QuoteForm() {
   const [submitted, setSubmitted] = useState(false);
   const [picked, setPicked] = useState<string[]>([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   function toggle(item: string) {
     setPicked((p) => (p.includes(item) ? p.filter((x) => x !== item) : [...p, item]));
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // -----------------------------------------------------------------------
-    // TODO (before launch): wire this to a real handler so Mike gets the lead.
-    //   1. Formspree — set the <form action> to your Formspree endpoint, or
-    //   2. app/api/quote/route.ts that emails via Resend.
-    // -----------------------------------------------------------------------
+    setError(null);
+    setSubmitting(true);
+
     const data = new FormData(e.currentTarget);
-    console.log("Quote request:", Object.fromEntries(data), { interested: picked });
-    setSubmitted(true);
+    const payload = { ...Object.fromEntries(data), interested: picked };
+
+    try {
+      const res = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error("Request failed");
+      }
+
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong sending your request — please try again or call us.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   if (submitted) {
@@ -121,9 +138,14 @@ export default function QuoteForm() {
         <textarea id="message" name="message" rows={4} className={`${field} mt-1.5 resize-y`} />
       </div>
 
-      <button type="submit" className="btn btn-primary mt-6 w-full">
-        Request my quote
+      <button type="submit" disabled={submitting} className="btn btn-primary mt-6 w-full disabled:opacity-60">
+        {submitting ? "Sending…" : "Request my quote"}
       </button>
+      {error && (
+        <p className="mt-3 text-center text-sm font-semibold text-red-600" role="alert">
+          {error}
+        </p>
+      )}
       <p className="mt-3 text-center text-xs text-ink-soft">
         We&apos;ll never share your info. Expect a reply within a day.
       </p>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { PageHero, ItemCard, Gallery, CtaBand } from "@/components/PageBlocks";
+import { PageHero, ItemCard, CtaBand } from "@/components/PageBlocks";
 import { bull, business, CALL_FOR_PRICING, inflatablesPage, photos } from "@/data/site";
+import GalleryLightbox from "@/components/GalleryLightbox";
 
 export const metadata: Metadata = {
   title: "Inflatable Rentals | Above All Tent Rentals - Long Island",
@@ -61,7 +62,7 @@ export default function InflatablesPage() {
         </div>
       </section>
 
-      <Gallery photos={inflatablesPage.gallery} title="At the party" />
+      <GalleryLightbox photos={inflatablesPage.gallery} title="At the party" />
       <CtaBand text="Kids' favorite day of the summer starts with one call." />
     </main>
   );

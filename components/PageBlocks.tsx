@@ -55,29 +55,6 @@ export function ItemCard({ item }: { item: RentalItem }) {
   );
 }
 
-// --- Photo gallery -----------------------------------------------------------
-export function Gallery({ photos, title = "In the wild" }: { photos: string[]; title?: string }) {
-  return (
-    <section className="mx-auto max-w-6xl px-5 py-16 md:py-20">
-      <p className="eyebrow">Photos</p>
-      <h2 className="mt-2 text-3xl md:text-4xl">{title}</h2>
-      <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3">
-        {photos.map((src) => (
-          <div key={src} className="aspect-[4/3] overflow-hidden rounded-xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={src}
-              alt="Above All Tent Rentals event"
-              loading="lazy"
-              className="h-full w-full object-cover"
-            />
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 // --- Bottom CTA band ---------------------------------------------------------
 export function CtaBand({ text = "Summer weekends book up early — lock your date in." }: { text?: string }) {
   return (

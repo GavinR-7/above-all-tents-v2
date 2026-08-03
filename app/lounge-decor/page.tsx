@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { PageHero, ItemCard, Gallery, CtaBand } from "@/components/PageBlocks";
+import { PageHero, ItemCard, CtaBand } from "@/components/PageBlocks";
 import { business, loungePage, photos } from "@/data/site";
+import GalleryLightbox from "@/components/GalleryLightbox";
 
 export const metadata: Metadata = {
   title: "Lounge & Decor Rentals | Above All Tent Rentals - Long Island",
@@ -29,7 +30,7 @@ export default function LoungeDecorPage() {
         </p>
       </section>
 
-      <Gallery photos={loungePage.gallery} title="Set the scene" />
+      <GalleryLightbox photos={loungePage.gallery} title="Set the scene" />
       <CtaBand text="From backyard BBQ to black tie — furnish it in one call." />
     </main>
   );
