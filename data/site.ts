@@ -345,12 +345,6 @@ export const loungePage = {
       price: null,
     },
     {
-      name: "Lounge Furniture",
-      blurb: "Seating vignettes that give guests somewhere to land between dances.",
-      photo: photos.lounge.e,
-      price: null,
-    },
-    {
       name: "Event Lighting",
       blurb: "String lights and uplighting under the tent and around the yard.",
       photo: photos.tents.new3,
@@ -368,20 +362,11 @@ export const loungePage = {
     photos.lounge.a,
     photos.lounge.b,
     photos.lounge.c,
-    photos.lounge.e,
-    photos.lounge.f,
-    photos.lounge.g,
-    photos.lounge.h,
-    photos.lounge.i,
-    photos.lounge.j,
-    photos.lounge.k,
-    photos.lounge.l,
     photos.lounge.m,
     photos.lounge.n,
     photos.lounge.o,
     photos.lounge.p,
     photos.lounge.q,
-
   ],
 };
 
