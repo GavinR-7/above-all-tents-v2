@@ -1,8 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StickyCallBar from "@/components/StickyCallBar";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "Above All Tent Rentals | Long Island Tent & Party Rentals Since 2005",
@@ -34,7 +40,7 @@ export default function RootLayout({
         {children}
         <Footer />
         {/* Spacer so the mobile call bar never covers the footer */}
-        <div className="h-16 md:hidden" aria-hidden="true" />
+        <div className="h-[calc(4rem+env(safe-area-inset-bottom))] md:hidden" aria-hidden="true" />
         <StickyCallBar />
       </body>
     </html>
