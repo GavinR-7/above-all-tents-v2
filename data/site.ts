@@ -98,14 +98,26 @@ export const navRight = [
 export const navAll = [...navLeft, ...navRight];
 
 // --- Home: hero carousel ----------------------------------------------------
-export const heroSlides = [
-  { photo: photos.tents.old1, alt: "Event tent rental on Long Island" },
-  { photo: photos.inflatables.f, alt: "Inflatable bouncy castle" },
-  //{ photo: photos.inflatables.i, alt: "Palm Tree inflatable water slide" },
-  { photo: photos.tents.new1, alt: "High-peak tent set for a backyard party" },
-  { photo: photos.tents.new3, alt: "Tent with tables and chairs ready for guests" },
-  { photo: photos.lounge.c, alt: "High-top tables and stools around a pool" },
-  { photo: photos.inflatables.c, alt: "Inflatable water slide at a summer party" },
+export type Slide =
+  | { kind: "photo"; src: string; alt: string }
+  | { kind: "video"; src: string; poster: string; alt: string };
+
+export const heroSlides: Slide[] = [
+  {
+    kind: "video",
+    src: "/video/hero.mp4",
+    poster: "/video/hero-poster.jpg",
+    alt: "Above All Tent Rentals highlight reel",
+  },
+  /*
+  { kind: "photo", src: photos.tents.old1, alt: "Event tent rental on Long Island" },
+  { kind: "photo", src: photos.inflatables.f, alt: "Inflatable bouncy castle" },
+  //{ kind: "photo", src: photos.inflatables.i, alt: "Palm Tree inflatable water slide" },
+  { kind: "photo", src: photos.tents.new1, alt: "High-peak tent set for a backyard party" },
+  { kind: "photo", src: photos.tents.new3, alt: "Tent with tables and chairs ready for guests" },
+  { kind: "photo", src: photos.lounge.c, alt: "High-top tables and stools around a pool" },
+  { kind: "photo", src: photos.inflatables.c, alt: "Inflatable water slide at a summer party" },
+   */
 ];
 
 export const hero = {
