@@ -1,4 +1,4 @@
-import { categoryTiles } from "@/data/site";
+import { categoryTiles, featureTile } from "@/data/site";
 
 // Mosaic like his current homepage: Tents tall on the left, the other two
 // stacked on the right. Tiles are black & white until hovered (see globals.css
@@ -56,6 +56,37 @@ export default function CategoryTiles() {
           <Tile key={tile.href} tile={tile} className="h-72 md:col-span-3 md:h-auto" />
         ))}
       </div>
+
+      {/* Mechanical bull — full-width feature banner */}
+      <a
+        href={featureTile.href}
+        className="tile group relative mt-4 block h-72 overflow-hidden rounded-2xl md:h-80"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={featureTile.photo}
+          alt={featureTile.name}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6 md:p-8">
+          <div>
+            <p className="eyebrow text-teal-300">{featureTile.eyebrow}</p>
+            <h3 className="mt-2 font-display text-3xl font-bold text-white md:text-4xl">
+              {featureTile.name}
+            </h3>
+            <p className="mt-1 max-w-md text-sm text-white/80">{featureTile.blurb}</p>
+          </div>
+          <span
+            aria-hidden="true"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-500 text-white transition-transform group-hover:translate-x-1"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        </div>
+      </a>
     </section>
   );
 }

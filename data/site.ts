@@ -90,6 +90,7 @@ export const photos = {
 export const navLeft = [
   { label: "Tents", href: "/tents" },
   { label: "Inflatables", href: "/inflatables" },
+  { label: "Mechanical Bull", href: "/mechanical-bull" },
 ];
 export const navRight = [
   { label: "Lounge & Decor", href: "/lounge-decor" },
@@ -126,7 +127,7 @@ export const categoryTiles = [
     name: "Inflatables",
     href: "/inflatables",
     photo: photos.inflatables.g,
-    blurb: "Bounce houses, water slides, dunk tanks — and the mechanical bull.",
+    blurb: "Bounce houses, water slides, dunk tanks.",
   },
   {
     name: "Lounge & Decor",
@@ -135,6 +136,15 @@ export const categoryTiles = [
     blurb: "Tables, chairs, linens, lighting, and LED lounge pieces.",
   },
 ];
+
+export const featureTile = {
+  eyebrow: "The showstopper",
+  name: "The Mechanical Bull",
+  href: "/mechanical-bull",
+  photo: photos.inflatables.bull0,
+  blurb:
+    "A pro operator, a big soft arena, and the thing everyone talks about for weeks. Books on its own line.",
+};
 
 // --- Home: about band -------------------------------------------------------
 export const about = {
@@ -286,6 +296,7 @@ export const bull = {
   note: "Weekends book fast — especially in summer.",
   price: null as string | null,
   photo: photos.inflatables.bull0,
+  gallery: [photos.inflatables.bull0, photos.inflatables.bull1],
 };
 
 // ============================================================================
