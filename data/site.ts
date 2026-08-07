@@ -375,7 +375,7 @@ export const loungePage = {
       price: null,
     },
     {
-      name: "DJ Floor",
+      name: "Dance Floor",
       blurb: "A professional dance floor laid out cleanly underneath the tent for the party.",
       photo: photos.lounge.m,
       price: null,
