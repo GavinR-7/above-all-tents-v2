@@ -61,9 +61,12 @@ export const photos = {
     g: `${U}/2026/04/image7.jpeg`, // obstacle course 
     h: `${U}/2026/04/image9.jpeg`, // bouncy house
     i: `${U}/2026/04/image23.jpeg`, // water slide, palm tree
+    j: `${U}/2026/04/image26.jpeg`, // slip and slide
+
 
     bull0: `${U}/2026/04/image5.jpeg`, // brown bull
     bull1: `${U}/2026/04/image4.jpeg`, // red bull
+    bullPoster: `${U}/2026/04/image29.jpeg`, // still frame for the bull video poster
   },
   lounge: {
     a: `${U}/2022/02/web-lounge-decor-1.jpg`, // just round table and chairs
@@ -83,6 +86,9 @@ export const photos = {
     o: `${U}/2026/04/image14.jpeg`, // !Nice few wedding chairs
     p: `${U}/2026/04/image16.jpeg`, // high tables with linens
     q: `${U}/2026/04/image22.jpeg`, // wedding dinner, tables, linens, chairs
+    r: `${U}/2026/04/image27.jpeg`, // bar, side
+    s: `${U}/2026/04/image28.jpeg`, // bar, front
+
   },
 };
 
@@ -139,7 +145,7 @@ export const categoryTiles = [
     name: "Inflatables",
     href: "/inflatables",
     photo: photos.inflatables.g,
-    blurb: "Bounce houses, water slides, dunk tanks.",
+    blurb: "Bounce houses, water slides, Obstacle Courses.",
   },
   {
     name: "Tables & Chairs",
@@ -182,6 +188,13 @@ export type Tent = {
   price: string | null;
 };
 
+// --- Gallery items (photo or video) -----------------------------------------
+export type GalleryItem =
+  | { kind: "photo"; src: string }
+  | { kind: "video"; src: string; poster: string };
+
+const photo = (src: string): GalleryItem => ({ kind: "photo", src });
+
 const t = (w: number, l: number, tables: number): Tent => ({
   size: `${w} × ${l}`,
   w,
@@ -218,16 +231,16 @@ export const tentPage = {
     "Have someone there to show the crew the exact spot — it goes up right the first time.",
   ],
   gallery: [
-    photos.tents.new1,
-    photos.tents.new2,
-    photos.tents.new3,
-    photos.tents.new4,
-    photos.tents.new5,
-    photos.tents.new6,
-    photos.tents.new7,
-    photos.tents.old1,
-    photos.tents.old2,
-    photos.tents.old3,
+    photo(photos.tents.new1),
+    photo(photos.tents.new2),
+    photo(photos.tents.new3),
+    photo(photos.tents.new4),
+    photo(photos.tents.new5),
+    photo(photos.tents.new6),
+    photo(photos.tents.new7),
+    photo(photos.tents.old1),
+    photo(photos.tents.old2),
+    photo(photos.tents.old3),
   ],
 };
 
@@ -275,19 +288,20 @@ export const inflatablesPage = {
     {
       name: "Slip & Slides",
       blurb: "A backyard water-park lane. Pairs perfectly with a water slide.",
-      photo: photos.inflatables.a,
+      photo: photos.inflatables.j,
       price: null,
     },
   ] as RentalItem[],
   gallery: [
-    photos.inflatables.a,
-    photos.inflatables.b,
-    photos.inflatables.c,
-    photos.inflatables.d,
-    photos.inflatables.f,
-    photos.inflatables.g,
-    photos.inflatables.h,
-    photos.inflatables.i,
+    photo(photos.inflatables.a),
+    photo(photos.inflatables.b),
+    photo(photos.inflatables.c),
+    photo(photos.inflatables.d),
+    photo(photos.inflatables.f),
+    photo(photos.inflatables.g),
+    photo(photos.inflatables.h),
+    photo(photos.inflatables.i),
+    photo(photos.inflatables.j),
   ],
 };
 
@@ -308,7 +322,11 @@ export const bull = {
   note: "Weekends book fast — especially in summer.",
   price: null as string | null,
   photo: photos.inflatables.bull0,
-  gallery: [photos.inflatables.bull0, photos.inflatables.bull1],
+  gallery: [
+    photo(photos.inflatables.bull0),
+    photo(photos.inflatables.bull1),
+    { kind: "video", src: "/video/bull.mp4", poster: photos.inflatables.bullPoster },
+  ] as GalleryItem[],
 };
 
 // ============================================================================
@@ -363,9 +381,9 @@ export const loungePage = {
       price: null,
     },
     {
-      name: "LED Lucite Tables & Bars",
-      blurb: "Glowing, color-shifting pieces that transform an evening event.",
-      photo: photos.lounge.d,
+      name: "Bar",
+      blurb: "A versatile 6-foot mobile bar with a bright white finish that adapts to any event aesthetic.",
+      photo: photos.lounge.s,
       price: null,
     },
     {
@@ -383,14 +401,16 @@ export const loungePage = {
   ] as RentalItem[],
   note: "Don't see what you're looking for? Ask — if we don't have it, we'll help you find it.",
   gallery: [
-    photos.lounge.a,
-    photos.lounge.b,
-    photos.lounge.c,
-    photos.lounge.m,
-    photos.lounge.n,
-    photos.lounge.o,
-    photos.lounge.p,
-    photos.lounge.q,
+    photo(photos.lounge.a),
+    photo(photos.lounge.b),
+    photo(photos.lounge.c),
+    photo(photos.lounge.m),
+    photo(photos.lounge.n),
+    photo(photos.lounge.o),
+    photo(photos.lounge.p),
+    photo(photos.lounge.q),
+    photo(photos.lounge.r),
+    photo(photos.lounge.s),
   ],
 };
 

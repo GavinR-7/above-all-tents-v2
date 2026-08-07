@@ -6,7 +6,7 @@ import GalleryLightbox from "@/components/GalleryLightbox";
 export const metadata: Metadata = {
   title: "Inflatable Rentals | Above All Tent Rentals - Long Island",
   description:
-    "Bounce houses, water slides, obstacle courses, dunk tanks, and mechanical bull rentals — clean, sanitized, delivered and set up anywhere on Long Island.",
+    "Bounce houses, water slides, obstacle courses rentals — clean, sanitized, delivered and set up anywhere on Long Island.",
 };
 
 export default function InflatablesPage() {
