@@ -8,7 +8,7 @@ Teal (from his logo) + navy on white, centered-logo header, hero photo carousel.
 - `/` — carousel hero, category tiles (B&W → color on hover), about band, contact
 - `/tents` — sizing calculator, 5 sizes + sidewalls, gallery
 - `/inflatables` — mechanical bull feature (own 516 number), item cards, gallery
-- `/lounge-decor` — tables/chairs/linens/lighting/LED/lounge items, gallery
+- `/tables-chairs` — tables/chairs/linens/lighting/LED/lounge items, gallery
 - `/contact` — quote form + contact info + map
 
 ## Run locally

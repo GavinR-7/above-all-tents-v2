@@ -93,7 +93,7 @@ export const navLeft = [
   { label: "Mechanical Bull", href: "/mechanical-bull" },
 ];
 export const navRight = [
-  { label: "Lounge & Decor", href: "/lounge-decor" },
+  { label: "Tables & Chairs", href: "/tables-chairs" },
   { label: "Contact", href: "/contact" },
 ];
 export const navAll = [...navLeft, ...navRight];
@@ -142,10 +142,10 @@ export const categoryTiles = [
     blurb: "Bounce houses, water slides, dunk tanks.",
   },
   {
-    name: "Lounge & Decor",
-    href: "/lounge-decor",
+    name: "Tables & Chairs",
+    href: "/tables-chairs",
     photo: photos.lounge.c,
-    blurb: "Tables, chairs, linens, lighting, and LED lounge pieces.",
+    blurb: "Tables, chairs, linens, lighting, and LED pieces.",
   },
 ];
 
@@ -203,7 +203,7 @@ export const tents: Tent[] = [
 export const tentPage = {
   title: "Tent Rentals",
   intro:
-    "High-peak frame tents in five sizes, delivered and set up anywhere on Long Island. Tell us your guest count and we'll size it for you — or use the guide below.",
+    "High-peak frame tents in many sizes, delivered and set up anywhere on Long Island. Tell us your guest count and we'll size it for you — or use the guide below.",
   sidewalls: {
     name: "Tent Sidewalls",
     blurb:
@@ -315,7 +315,8 @@ export const bull = {
 // LOUNGE & DECOR (includes tables, chairs & extras)
 // ============================================================================
 export const loungePage = {
-  title: "Lounge & Decor",
+  title: "Tables & Chairs",
+  subtitle: "Tables, chairs, linens, lighting & more",
   intro:
     "Everything that furnishes the party — tables, chairs, linens, lighting, and lounge pieces that set your event apart. Each item is rented on its own, so you only pay for what you need.",
   items: [

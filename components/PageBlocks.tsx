@@ -3,10 +3,12 @@ import { business, CALL_FOR_PRICING, type RentalItem } from "@/data/site";
 // --- Page hero for category pages ------------------------------------------
 export function PageHero({
   title,
+  subtitle,
   intro,
   photo,
 }: {
   title: string;
+  subtitle?: string;
   intro: string;
   photo: string;
 }) {
@@ -19,6 +21,9 @@ export function PageHero({
       </div>
       <div className="relative mx-auto max-w-6xl px-5 py-20 text-center md:py-28">
         <h1 className="text-4xl font-bold text-white md:text-6xl">{title}</h1>
+        {subtitle && (
+          <p className="mt-3 font-display text-lg font-semibold text-teal-300 md:text-xl">{subtitle}</p>
+        )}
         <p className="mx-auto mt-4 max-w-2xl text-lg text-white/85">{intro}</p>
       </div>
     </section>

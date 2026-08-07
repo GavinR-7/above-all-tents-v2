@@ -4,7 +4,7 @@ import { business, loungePage, photos } from "@/data/site";
 import GalleryLightbox from "@/components/GalleryLightbox";
 
 export const metadata: Metadata = {
-  title: "Lounge & Decor Rentals | Above All Tent Rentals - Long Island",
+  title: "Tables & Chairs Rentals | Above All Tent Rentals - Long Island",
   description:
     "Tables, chairs, linens, lighting, LED lucite pieces, and lounge furniture — everything that furnishes a Long Island event, rented item by item.",
 };
@@ -12,7 +12,12 @@ export const metadata: Metadata = {
 export default function LoungeDecorPage() {
   return (
     <main>
-      <PageHero title={loungePage.title} intro={loungePage.intro} photo={photos.lounge.b} />
+      <PageHero
+        title={loungePage.title}
+        subtitle={loungePage.subtitle}
+        intro={loungePage.intro}
+        photo={photos.lounge.b}
+      />
 
       <section className="mx-auto max-w-6xl px-5 py-16 md:py-24">
         <p className="eyebrow">The inventory</p>
