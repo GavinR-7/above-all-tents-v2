@@ -25,3 +25,4 @@ next-env.d.ts
 public/*:Zone.Identifier
 
 # hero video assets (large binaries, delivered outside git)
+*:Zone.Identifier
