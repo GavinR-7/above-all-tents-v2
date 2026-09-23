@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { business, footerStrip, navAll, photos } from "@/data/site";
 
 function IgIcon() {
@@ -26,9 +27,14 @@ export default function Footer() {
       {/* Photo strip — the touch from his current footer Gavin liked */}
       <div className="grid grid-cols-2 md:grid-cols-4">
         {footerStrip.map((src) => (
-          <div key={src} className="aspect-[16/9] overflow-hidden md:aspect-[4/3] lg:aspect-[16/9]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt="Above All Tent Rentals event" className="h-full w-full object-cover" loading="lazy" />
+          <div key={src} className="relative aspect-[16/9] overflow-hidden md:aspect-[4/3] lg:aspect-[16/9]">
+            <Image
+              src={src}
+              alt="Above All Tent Rentals event"
+              fill
+              sizes="(min-width: 768px) 25vw, 50vw"
+              className="object-cover"
+            />
           </div>
         ))}
       </div>
@@ -36,9 +42,12 @@ export default function Footer() {
       {/* Contact row */}
       <div className="border-b border-line bg-white">
         <div className="mx-auto grid max-w-6xl gap-6 px-5 py-10 text-center sm:grid-cols-2 lg:grid-cols-4">
-          <a href={business.mapsLink} target="_blank" rel="noopener noreferrer" className="text-sm text-ink-soft transition-colors hover:text-teal-600">
-            {business.address}
-          </a>
+          <div>
+            <a href={business.mapsLink} target="_blank" rel="noopener noreferrer" className="text-sm text-ink-soft transition-colors hover:text-teal-600">
+              {business.address}
+            </a>
+            <p className="mt-1 text-sm text-ink-soft">{business.hours.short}</p>
+          </div>
           <a href={`tel:${business.phoneDial}`} className="font-display font-bold text-navy-900 transition-colors hover:text-teal-600">
             {phonePrefix}
             <span className="relative inline-block">
@@ -62,7 +71,7 @@ export default function Footer() {
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-10 md:flex-row md:justify-between">
           <a href="/" aria-label={business.name} className="flex h-12 items-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={photos.logo} alt={business.name} className="h-20 w-auto" />
+            <img src={photos.logo} alt={business.name} width={789} height={501} className="h-20 w-auto" />
           </a>
 
           <nav className="flex flex-wrap justify-center gap-x-7 gap-y-2">
@@ -74,12 +83,22 @@ export default function Footer() {
           </nav>
 
           <div className="flex gap-3">
-            <a href={business.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/85 transition-colors hover:bg-teal-500 hover:text-white">
+            <a
+              href={business.social.instagram.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={business.social.instagram.label}
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/85 transition-colors hover:bg-teal-500 hover:text-white"
+            >
               <IgIcon />
             </a>
-            <a href={business.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/85 transition-colors hover:bg-teal-500 hover:text-white">
+            <a
+              href={business.social.facebook.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={business.social.facebook.label}
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/85 transition-colors hover:bg-teal-500 hover:text-white"
+            >
               <FbIcon />
             </a>
           </div>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { business, CALL_FOR_PRICING, type RentalItem } from "@/data/site";
 
 // --- Page hero for category pages ------------------------------------------
@@ -15,8 +16,15 @@ export function PageHero({
   return (
     <section className="relative isolate overflow-hidden bg-navy-900">
       <div className="absolute inset-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={photo} alt="" className="h-full w-full object-cover opacity-40" />
+        {/* The LCP element on every category page, so it loads eagerly. */}
+        <Image
+          src={photo}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-40"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 to-navy-950/50" />
       </div>
       <div className="relative mx-auto max-w-6xl px-5 py-20 text-center md:py-28">
@@ -33,13 +41,18 @@ export function PageHero({
 // --- Rental item card --------------------------------------------------------
 // The price line: shows the item's price if Mike sets one in data/site.ts,
 // otherwise a quiet "Call for pricing".
-export function ItemCard({ item }: { item: RentalItem }) {
+export function ItemCard({
+  item,
+  sizes = "(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw",
+}: {
+  item: RentalItem;
+  sizes?: string;
+}) {
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
       {item.photo ? (
-        <div className="aspect-[4/3] overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={item.photo} alt={item.name} className="h-full w-full object-cover" />
+        <div className="relative aspect-[4/3] overflow-hidden">
+          <Image src={item.photo} alt={item.name} fill sizes={sizes} className="object-cover" />
         </div>
       ) : (
         // No dedicated photo yet — teal placeholder until Mike supplies one.

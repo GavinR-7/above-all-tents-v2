@@ -4,7 +4,7 @@ import { useState } from "react";
 import { business, navLeft, navRight, navAll, photos } from "@/data/site";
 
 const linkCls =
-  "font-display text-[0.95rem] font-semibold text-white/85 transition-colors hover:text-teal-300";
+  "whitespace-nowrap font-display text-[0.95rem] font-semibold text-white/85 transition-colors hover:text-teal-300";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -12,8 +12,8 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-navy-900 shadow-[0_1px_0_rgba(255,255,255,0.08)]">
       {/* Desktop: split nav with the logo as the centerpiece */}
-      <div className="mx-auto hidden max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-6 px-6 py-3 md:grid">
-        <nav className="flex items-center justify-end gap-10">
+      <div className="mx-auto hidden max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-6 py-3 lg:grid xl:gap-6">
+        <nav className="flex items-center justify-end gap-6 xl:gap-10">
           {navLeft.map((item) => (
             <a key={item.href} href={item.href} className={linkCls}>
               {item.label}
@@ -26,11 +26,13 @@ export default function Header() {
           <img
             src={photos.logo}
             alt={business.name}
+            width={789}
+            height={501}
             className="h-16 w-auto lg:h-20"
           />
         </a>
 
-        <nav className="flex items-center gap-10">
+        <nav className="flex items-center gap-6 xl:gap-10">
           {navRight.map((item) => (
             <a key={item.href} href={item.href} className={linkCls}>
               {item.label}
@@ -38,7 +40,7 @@ export default function Header() {
           ))}
           <a
             href={`tel:${business.phoneDial}`}
-            className="rounded-full bg-teal-500 px-4 py-2 font-display text-sm font-bold text-white transition-colors hover:bg-teal-600"
+            className="whitespace-nowrap rounded-full bg-teal-500 px-4 py-2 font-display text-sm font-bold text-white transition-colors hover:bg-teal-600"
           >
             {business.phoneDisplay}
           </a>
@@ -46,10 +48,10 @@ export default function Header() {
       </div>
 
       {/* Mobile: logo left, hamburger right */}
-      <div className="flex items-center justify-between px-5 py-3 md:hidden">
+      <div className="flex items-center justify-between px-5 py-3 lg:hidden">
         <a href="/" aria-label={business.name}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={photos.logo} alt={business.name} className="h-12 w-auto" />
+          <img src={photos.logo} alt={business.name} width={789} height={501} className="h-12 w-auto" />
         </a>
         <button
           type="button"
@@ -67,7 +69,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="border-t border-white/10 bg-navy-900 md:hidden">
+        <div className="border-t border-white/10 bg-navy-900 lg:hidden">
           <nav className="flex flex-col px-5 py-2">
             {navAll.map((item) => (
               <a

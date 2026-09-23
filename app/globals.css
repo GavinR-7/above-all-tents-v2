@@ -26,8 +26,10 @@
   --color-ink-soft: #4f6377;
   --color-line: #dfe9ec;
 
-  --font-display: "Quicksand", "Avenir", system-ui, sans-serif;
-  --font-sans: "Nunito Sans", system-ui, -apple-system, sans-serif;
+  /* Families come from next/font/google (see app/layout.tsx), which sets these
+     --font-* variables on <html>. Fallbacks stay for the swap window. */
+  --font-display: var(--font-quicksand), "Avenir", system-ui, sans-serif;
+  --font-sans: var(--font-nunito-sans), system-ui, -apple-system, sans-serif;
 }
 
 /* ---------------------------------------------------------------------------

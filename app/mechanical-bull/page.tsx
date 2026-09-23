@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PageHero, CtaBand } from "@/components/PageBlocks";
 import GalleryLightbox from "@/components/GalleryLightbox";
-import { bull, business, CALL_FOR_PRICING, photos } from "@/data/site";
+import { bull, business, CALL_FOR_PRICING, photos, seo } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Mechanical Bull Rental Long Island | Above All Tent Rentals",
-  description:
-    "Mechanical bull rental on Long Island with a professional operator and inflatable safety arena included. Delivery, setup, and takedown handled — book the showstopper for your next event.",
+  title: seo.mechanicalBull.title,
+  description: seo.mechanicalBull.description,
+  alternates: { canonical: "/mechanical-bull" },
+  openGraph: {
+    title: seo.mechanicalBull.title,
+    description: seo.mechanicalBull.description,
+    url: "/mechanical-bull",
+  },
 };
 
 export default function MechanicalBullPage() {
@@ -17,12 +23,13 @@ export default function MechanicalBullPage() {
       <section className="bg-navy-900 py-16 text-white md:py-24">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 lg:grid-cols-2">
           <div className="overflow-hidden rounded-2xl ring-1 ring-white/10">
-            <div className="aspect-[4/3]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative aspect-[4/3]">
+              <Image
                 src={photos.inflatables.bull1}
                 alt="Mechanical bull in its inflatable safety arena"
-                className="h-full w-full object-cover"
+                fill
+                sizes="(min-width: 1024px) 560px, (min-width: 640px) 90vw, 100vw"
+                className="object-cover"
               />
             </div>
           </div>

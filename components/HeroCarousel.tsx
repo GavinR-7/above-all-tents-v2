@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { business, hero, heroSlides } from "@/data/site";
 
@@ -9,6 +10,11 @@ export default function HeroCarousel() {
   const [idx, setIdx] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  // The hero video is multi-megabyte. We hold its `src` back until the browser
+  // is idle so it can't compete with the poster, which is the LCP image.
+  const [videoAllowed, setVideoAllowed] = useState(false);
+  // Index of the video that has buffered a frame; it fades in over its poster.
+  const [readyIdx, setReadyIdx] = useState<number | null>(null);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
@@ -28,6 +34,21 @@ export default function HeroCarousel() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
+  // Let the first paint finish before the video is allowed to start fetching.
+  useEffect(() => {
+    type IdleWindow = Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+    const w = window as IdleWindow;
+    if (w.requestIdleCallback) {
+      const handle = w.requestIdleCallback(() => setVideoAllowed(true), { timeout: 2500 });
+      return () => w.cancelIdleCallback?.(handle);
+    }
+    const t = setTimeout(() => setVideoAllowed(true), 1200);
+    return () => clearTimeout(t);
+  }, []);
+
   // Photo slides advance on a timer; video slides advance on their own onEnded.
   useEffect(() => {
     if (paused) return;
@@ -40,13 +61,20 @@ export default function HeroCarousel() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx, paused, reducedMotion]);
 
-  // Play the active video slide, pause and rewind every other one.
+  // A slide change invalidates the ready flag — the next src has to buffer
+  // again, so the poster takes over until it can play.
+  useEffect(() => {
+    setReadyIdx(null);
+  }, [idx]);
+
+  // Play the active video slide, pause and rewind every other one. Nothing can
+  // play before `videoAllowed`, because until then the element has no src.
   useEffect(() => {
     heroSlides.forEach((slide, i) => {
       if (slide.kind !== "video") return;
       const el = videoRefs.current[i];
       if (!el) return;
-      if (i === idx && !reducedMotion) {
+      if (i === idx && !reducedMotion && videoAllowed) {
         el.currentTime = 0;
         el.play().catch(() => {});
       } else {
@@ -54,7 +82,7 @@ export default function HeroCarousel() {
         el.currentTime = 0;
       }
     });
-  }, [idx, reducedMotion]);
+  }, [idx, reducedMotion, videoAllowed]);
 
   return (
     <section className="relative isolate h-[78vh] min-h-[520px] overflow-hidden" aria-label="Featured photos">
@@ -68,8 +96,15 @@ export default function HeroCarousel() {
             }`}
             aria-hidden={i !== idx}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={slide.src} alt={slide.alt} className="h-full w-full object-cover" />
+            {/* Only the first slide loads eagerly; the rest stay lazy by default. */}
+            <Image
+              src={slide.src}
+              alt={slide.alt}
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              className="object-cover"
+            />
           </div>
         ) : (
           <div
@@ -79,18 +114,30 @@ export default function HeroCarousel() {
             }`}
             aria-hidden={i !== idx}
           >
+            {/* The poster is a real optimized image underneath the video, which
+                makes it the LCP element instead of the <video> poster attribute. */}
+            <Image
+              src={slide.poster}
+              alt={slide.alt}
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              className="object-cover"
+            />
             <video
               ref={(el) => {
                 videoRefs.current[i] = el;
               }}
-              src={slide.src}
-              poster={slide.poster}
+              src={i === idx && videoAllowed && !reducedMotion ? slide.src : undefined}
               aria-label={slide.alt}
               loop={heroSlides.length === 1}
               muted
               playsInline
-              preload="metadata"
-              className="h-full w-full object-cover"
+              preload="none"
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+                readyIdx === i ? "opacity-100" : "opacity-0"
+              }`}
+              onCanPlay={() => setReadyIdx(i)}
               onEnded={() => {
                 if (!paused) go(idx + 1);
               }}

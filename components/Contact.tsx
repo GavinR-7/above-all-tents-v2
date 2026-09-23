@@ -16,6 +16,14 @@ function MailIcon() {
     </svg>
   );
 }
+function ClockIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.7" />
+      <path d="M12 7.5V12l3.5 2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 function PinIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -53,6 +61,12 @@ export default function Contact() {
               </span>
               <span>{business.address}</span>
             </a>
+            <p className="flex items-center gap-3 text-ink">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-600">
+                <ClockIcon />
+              </span>
+              {business.hours.text}
+            </p>
           </div>
 
           <div className="mt-8 overflow-hidden rounded-2xl border border-line shadow-sm">

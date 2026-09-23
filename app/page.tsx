@@ -1,3 +1,4 @@
+import Image from "next/image";
 import HeroCarousel from "@/components/HeroCarousel";
 import CategoryTiles from "@/components/CategoryTiles";
 import Contact from "@/components/Contact";
@@ -17,11 +18,17 @@ export default function Home() {
             <h2 className="mt-2 text-3xl md:text-5xl">{about.title}</h2>
             <p className="mt-1 font-display text-xl font-semibold text-teal-600">{about.subtitle}</p>
             <p className="mt-5 text-lg leading-relaxed text-ink-soft">{about.body}</p>
+            <p className="mt-4 text-ink-soft">{about.serviceLine}</p>
           </div>
           <div className="overflow-hidden rounded-2xl border border-line shadow-sm">
-            <div className="aspect-[4/3]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={about.photo} alt="Above All tent set up for an event" className="h-full w-full object-cover" />
+            <div className="relative aspect-[4/3]">
+              <Image
+                src={about.photo}
+                alt="Above All tent set up for an event"
+                fill
+                sizes="(min-width: 1024px) 560px, (min-width: 640px) 90vw, 100vw"
+                className="object-cover"
+              />
             </div>
           </div>
         </div>

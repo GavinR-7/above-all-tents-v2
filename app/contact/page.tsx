@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import Contact from "@/components/Contact";
+import { seo } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Contact | Above All Tent Rentals - Long Island",
-  description:
-    "Get a quote for tents, inflatables, and party rentals anywhere on Long Island. Call 631-265-TENT or send us your event details.",
+  title: seo.contact.title,
+  description: seo.contact.description,
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: seo.contact.title,
+    description: seo.contact.description,
+    url: "/contact",
+  },
 };
 
 export default function ContactPage() {

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { GalleryItem } from "@/data/site";
 
@@ -84,12 +85,13 @@ export default function GalleryLightbox({
             className="relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-xl"
             aria-label={`Open slide ${i + 1} of ${photos.length}`}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={item.kind === "photo" ? item.src : item.poster}
               alt="Above All Tent Rentals event"
+              fill
               loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-300 hover:scale-[1.03]"
+              sizes="(min-width: 1152px) 360px, (min-width: 768px) 33vw, 50vw"
+              className="object-cover transition-transform duration-300 hover:scale-[1.03]"
             />
             {item.kind === "video" && (
               <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-navy-950/10">

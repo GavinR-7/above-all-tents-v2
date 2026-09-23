@@ -9,28 +9,133 @@
 // ============================================================================
 
 // --- Business identity ------------------------------------------------------
+
+// Canonical origin. Feeds metadataBase, the sitemap, robots.txt, and every
+// absolute URL in the JSON-LD.
+export const siteUrl = "https://abovealltents.com";
+
+// Broken out so the JSON-LD can emit a real PostalAddress. `business.address`
+// is assembled from these, so the displayed address and the structured one
+// can never drift apart.
+const addressParts = {
+  street: "648 Middle Country Road, Suite 1",
+  city: "Saint James",
+  state: "NY",
+  zip: "11780",
+  country: "US",
+};
+
 export const business = {
   name: "Above All Tent Rentals",
   since: 2005,
   phoneDisplay: "631-265-TENT",
   phoneDigits: "8368",
   phoneDial: "16312658368",
+  // E.164, for JSON-LD — the vanity spelling means nothing to a crawler.
+  phoneE164: "+16312658368",
   // Mechanical bull books on its own line.
   bullPhoneDisplay: "516-924-0023",
   bullPhoneDial: "5169240023",
   email: "info@abovealltents.com",
-  address: "648 Middle Country Road, Suite 1, Saint James, NY 11780",
+  addressParts,
+  address: `${addressParts.street}, ${addressParts.city}, ${addressParts.state} ${addressParts.zip}`,
+
+  // Open every day. `text`/`short` render in the UI; `days`/`opens`/`closes`
+  // feed schema.org openingHoursSpecification. One source, both jobs.
+  hours: {
+    text: "Open daily, 9:00 AM to 9:00 PM",
+    short: "Open daily 9am\u20139pm",
+    days: [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ],
+    opens: "09:00",
+    closes: "21:00",
+  },
+
+  // Towns we deliver to. Renders as copy and becomes areaServed in the JSON-LD.
+  serviceAreas: [
+    "Smithtown",
+    "Saint James",
+    "Stony Brook",
+    "Hauppauge",
+    "Commack",
+    "Huntington",
+    "Port Jefferson",
+    "Suffolk County",
+    "Long Island",
+  ],
   mapsEmbed:
     "https://www.google.com/maps?q=648+Middle+Country+Road+Suite+1+Saint+James+NY+11780&output=embed",
   mapsLink: "https://maps.google.com/?q=648+Middle+Country+Road+Suite+1+Saint+James+NY+11780",
+  // Verified coordinates from the Google Business Profile listing. Feeds the
+  // `geo` block in the JSON-LD.
+  geo: { lat: 40.857988, lng: -73.1557047 },
+
+  // Each profile carries its own accessible label, so the aria-label on the
+  // icon and the URL it points at can never get out of sync. The Facebook page
+  // is shared with the bounce-house side of the business, hence the long name.
+  // `googleBusiness` is structured data only — it gets no footer icon.
   social: {
-    instagram: "https://www.instagram.com/above_all_tent_rental_/",
-    facebook: "https://www.facebook.com/libounceandslide",
+    instagram: {
+      url: "https://www.instagram.com/above_all_tent_rental_/",
+      label: "Above All Tent Rentals on Instagram",
+    },
+    facebook: {
+      url: "https://www.facebook.com/libounceandslide",
+      label: "Above All Tents & Long Island Bounce & Slide on Facebook",
+    },
+    googleBusiness: {
+      url: "https://maps.app.goo.gl/RzYwyf2jSse9ugd48",
+      label: "Above All Tent Rentals on Google",
+    },
   },
   djSite: "https://inthemooddj.com/",
 };
 
 export const CALL_FOR_PRICING = "Call for pricing";
+
+// --- Page SEO ---------------------------------------------------------------
+// One title + description per route, each targeting a different service and
+// naming the towns the way a person would say them. Consumed by the `metadata`
+// export in each page file.
+export const seo = {
+  home: {
+    title: "Tent & Party Rentals in Smithtown & Saint James, NY | Above All Tent Rentals",
+    description:
+      "Family-owned tent, inflatable, and party rentals in Smithtown, Saint James, and across Suffolk County since 2005. Delivery and setup included, open daily.",
+  },
+  tents: {
+    title: "Tent Rentals in Smithtown & Saint James, NY | Above All Tent Rentals",
+    description:
+      "High-peak frame tent rentals in five sizes, delivered and set up across Smithtown, Saint James, and Suffolk County. Tell us your guest count and we'll size it for you.",
+  },
+  inflatables: {
+    title: "Bounce House & Water Slide Rentals in Smithtown, NY | Above All Tent Rentals",
+    description:
+      "Bounce house, water slide, and obstacle course rentals for parties in Smithtown, Saint James, and across Long Island. Cleaned and inspected before every event.",
+  },
+  mechanicalBull: {
+    title: "Mechanical Bull Rental in Smithtown & Long Island | Above All Tent Rentals",
+    description:
+      "Mechanical bull rental on Long Island with a professional operator and inflatable safety arena included. Delivery, setup, and takedown handled for you.",
+  },
+  tablesChairs: {
+    title: "Table, Chair & Linen Rentals in Smithtown, NY | Above All Tent Rentals",
+    description:
+      "Round tables, chairs, linens, lighting, bars, and dance floors for events in Smithtown, Saint James, and across Suffolk County. Every piece rented on its own.",
+  },
+  contact: {
+    title: "Contact & Free Quote | Above All Tent Rentals, Saint James NY",
+    description:
+      "Call 631-265-TENT or send your event details for a tent and party rental quote in Smithtown, Saint James, and across Long Island. Open daily, 9:00 AM to 9:00 PM.",
+  },
+};
 
 // --- Photos (all real) ----------------------------
 // Photos downloaded into /public.
@@ -38,6 +143,9 @@ const U = "/img";
 
 export const photos = {
   logo: `${U}/2022/01/above-all-tent-rentals-logo-invert.svg`, // white + teal, for dark backgrounds
+  // 512x512 raster of the same logo on navy. Only for JSON-LD — Google wants a
+  // square raster logo, not an SVG. Regenerate from the SVG if the logo changes.
+  logoSquare: `${U}/logo-square.png`,
   tents: {
     old1: `${U}/2022/01/web-slide-1.jpg`, // Mikes house
     old2: `${U}/2022/02/web-tents-2.jpg`, // tent, chairs, tables, linens
@@ -104,6 +212,9 @@ export const navRight = [
 ];
 export const navAll = [...navLeft, ...navRight];
 
+// Every indexable route, home first. Drives app/sitemap.ts.
+export const routes = ["/", ...navAll.map((item) => item.href)];
+
 // --- Home: hero carousel ----------------------------------------------------
 export type Slide =
   | { kind: "photo"; src: string; alt: string }
@@ -145,7 +256,7 @@ export const categoryTiles = [
     name: "Inflatables",
     href: "/inflatables",
     photo: photos.inflatables.g,
-    blurb: "Bounce houses, water slides, Obstacle Courses.",
+    blurb: "Bounce houses, water slides, obstacle courses.",
   },
   {
     name: "Tables & Chairs",
@@ -169,6 +280,8 @@ export const about = {
   title: "Celebrating Over 20 Years",
   subtitle: "Servicing All of Long Island",
   body: `Since ${business.since}, Above All Tent Rentals has been providing party equipment rentals throughout Long Island. We're a family-owned business, and we take pride in delivering the newest, cleanest, and most attractive equipment available — delivered, set up, and taken down for you.`,
+  serviceLine:
+    "Our shop is in Saint James, and we deliver and set up throughout Smithtown, Stony Brook, Hauppauge, Commack, and across Suffolk County.",
   photo: photos.tents.new3,
 };
 
@@ -432,7 +545,7 @@ export const interests = [
   "Mechanical bull",
   "Tables & chairs",
   "Linens",
-  "Lounge & decor",
+  "Decor & lighting",
   "Not sure yet",
 ];
 

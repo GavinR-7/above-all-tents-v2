@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
 import { PageHero, CtaBand } from "@/components/PageBlocks";
 import SizingCalculator from "@/components/SizingCalculator";
-import { CALL_FOR_PRICING, photos, tentPage, tents } from "@/data/site";
+import { CALL_FOR_PRICING, photos, seo, tentPage, tents } from "@/data/site";
 import GalleryLightbox from "@/components/GalleryLightbox";
 
 export const metadata: Metadata = {
-  title: "Tent Rentals | Above All Tent Rentals - Long Island",
-  description:
-    "High-peak frame tent rentals in five sizes, delivered and set up anywhere on Long Island. Use our sizing guide to find the right tent for your guest count.",
+  title: seo.tents.title,
+  description: seo.tents.description,
+  alternates: { canonical: "/tents" },
+  openGraph: {
+    title: seo.tents.title,
+    description: seo.tents.description,
+    url: "/tents",
+  },
 };
 
 export default function TentsPage() {

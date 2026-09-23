@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { PageHero, ItemCard, CtaBand } from "@/components/PageBlocks";
-import { inflatablesPage, photos } from "@/data/site";
+import { inflatablesPage, photos, seo } from "@/data/site";
 import GalleryLightbox from "@/components/GalleryLightbox";
 
 export const metadata: Metadata = {
-  title: "Inflatable Rentals | Above All Tent Rentals - Long Island",
-  description:
-    "Bounce houses, water slides, obstacle courses rentals — clean, sanitized, delivered and set up anywhere on Long Island.",
+  title: seo.inflatables.title,
+  description: seo.inflatables.description,
+  alternates: { canonical: "/inflatables" },
+  openGraph: {
+    title: seo.inflatables.title,
+    description: seo.inflatables.description,
+    url: "/inflatables",
+  },
 };
 
 export default function InflatablesPage() {

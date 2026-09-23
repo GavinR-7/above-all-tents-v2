@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { categoryTiles, featureTile } from "@/data/site";
 
 // Mosaic like his current homepage: Tents tall on the left, the other two
@@ -9,19 +10,22 @@ export default function CategoryTiles() {
   const Tile = ({
     tile,
     className,
+    sizes,
   }: {
     tile: (typeof categoryTiles)[number];
     className?: string;
+    sizes: string;
   }) => (
     <a
       href={tile.href}
       className={`tile group relative block overflow-hidden rounded-2xl ${className ?? ""}`}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={tile.photo}
         alt={tile.name}
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+        fill
+        sizes={sizes}
+        className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
@@ -51,9 +55,18 @@ export default function CategoryTiles() {
       </div>
 
       <div className="mt-10 grid gap-4 md:h-[560px] md:grid-cols-5 md:grid-rows-2">
-        <Tile tile={tentsTile} className="h-72 md:col-span-2 md:row-span-2 md:h-auto" />
+        <Tile
+          tile={tentsTile}
+          className="h-72 md:col-span-2 md:row-span-2 md:h-auto"
+          sizes="(min-width: 1152px) 440px, (min-width: 768px) 40vw, 100vw"
+        />
         {rest.map((tile) => (
-          <Tile key={tile.href} tile={tile} className="h-72 md:col-span-3 md:h-auto" />
+          <Tile
+            key={tile.href}
+            tile={tile}
+            className="h-72 md:col-span-3 md:h-auto"
+            sizes="(min-width: 1152px) 665px, (min-width: 768px) 60vw, 100vw"
+          />
         ))}
       </div>
 
@@ -62,11 +75,12 @@ export default function CategoryTiles() {
         href={featureTile.href}
         className="tile group relative mt-4 block h-72 overflow-hidden rounded-2xl md:h-80"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={featureTile.photo}
           alt={featureTile.name}
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          fill
+          sizes="(min-width: 1152px) 1112px, 100vw"
+          className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6 md:p-8">

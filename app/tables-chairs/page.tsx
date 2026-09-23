@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { PageHero, ItemCard, CtaBand } from "@/components/PageBlocks";
-import { business, loungePage, photos } from "@/data/site";
+import { business, loungePage, photos, seo } from "@/data/site";
 import GalleryLightbox from "@/components/GalleryLightbox";
 
 export const metadata: Metadata = {
-  title: "Tables & Chairs Rentals | Above All Tent Rentals - Long Island",
-  description:
-    "Tables, chairs, linens, lighting, LED lucite pieces, and lounge furniture — everything that furnishes a Long Island event, rented item by item.",
+  title: seo.tablesChairs.title,
+  description: seo.tablesChairs.description,
+  alternates: { canonical: "/tables-chairs" },
+  openGraph: {
+    title: seo.tablesChairs.title,
+    description: seo.tablesChairs.description,
+    url: "/tables-chairs",
+  },
 };
 
 export default function LoungeDecorPage() {
@@ -24,7 +29,11 @@ export default function LoungeDecorPage() {
         <h2 className="mt-2 text-3xl md:text-4xl">Furnish the whole event.</h2>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {loungePage.items.map((item) => (
-            <ItemCard key={item.name} item={item} />
+            <ItemCard
+              key={item.name}
+              item={item}
+              sizes="(min-width: 1024px) 270px, (min-width: 640px) 50vw, 100vw"
+            />
           ))}
         </div>
         <p className="mt-8 rounded-xl bg-mist p-5 text-sm text-ink-soft">
