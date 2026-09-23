@@ -55,6 +55,7 @@ const localBusinessSchema = {
   url: siteUrl,
   telephone: business.phoneE164,
   email: business.email,
+  priceRange: business.priceRange,
   logo: `${siteUrl}${photos.logoSquare}`,
   image: `${siteUrl}${about.photo}`,
   foundingDate: String(business.since),

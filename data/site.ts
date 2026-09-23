@@ -40,6 +40,10 @@ export const business = {
   addressParts,
   address: `${addressParts.street}, ${addressParts.city}, ${addressParts.state} ${addressParts.zip}`,
 
+  // A general affordability signal for Google, not a published price. The site
+  // deliberately shows "Call for pricing" everywhere — see CALL_FOR_PRICING.
+  priceRange: "$$",
+
   // Open every day. `text`/`short` render in the UI; `days`/`opens`/`closes`
   // feed schema.org openingHoursSpecification. One source, both jobs.
   hours: {
