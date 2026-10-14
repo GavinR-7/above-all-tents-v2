@@ -4,7 +4,17 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StickyCallBar from "@/components/StickyCallBar";
-import { about, business, photos, seo, siteUrl } from "@/data/site";
+import {
+  about,
+  bull,
+  business,
+  inflatablesPage,
+  loungePage,
+  photos,
+  seo,
+  siteUrl,
+  tentPage,
+} from "@/data/site";
 
 // Self-hosted at build time and preloaded, so there is no render-blocking
 // request to fonts.googleapis.com. Both are variable fonts, so one file per
@@ -85,6 +95,37 @@ const localBusinessSchema = {
     "@type": /County|Long Island/.test(area) ? "AdministrativeArea" : "City",
     name: `${area}, NY`,
   })),
+  // Two phone lines, both published on the site: the main line and the
+  // mechanical bull's own booking line.
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: business.phoneE164,
+      email: business.email,
+    },
+    {
+      "@type": "ContactPoint",
+      contactType: "reservations",
+      name: bull.title,
+      telephone: `+1${business.bullPhoneDial}`,
+    },
+  ],
+  // What he rents, named exactly as the site's own page titles. No prices: the
+  // site says "Call for pricing" everywhere, and markup must match the page.
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: `${business.name} rentals`,
+    itemListElement: [
+      { title: tentPage.title, path: "/tents" },
+      { title: inflatablesPage.title, path: "/inflatables" },
+      { title: bull.title, path: "/mechanical-bull" },
+      { title: loungePage.title, path: "/tables-chairs" },
+    ].map(({ title, path }) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: title, url: `${siteUrl}${path}` },
+    })),
+  },
   sameAs: Object.values(business.social).map((profile) => profile.url),
 };
 
