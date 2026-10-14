@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/pageMetadata";
 import { PageHero, ItemCard, CtaBand } from "@/components/PageBlocks";
 import { business, loungePage, photos, seo } from "@/data/site";
 import GalleryLightbox from "@/components/GalleryLightbox";
 
-export const metadata: Metadata = {
-  title: seo.tablesChairs.title,
-  description: seo.tablesChairs.description,
-  alternates: { canonical: "/tables-chairs" },
-  openGraph: {
-    title: seo.tablesChairs.title,
-    description: seo.tablesChairs.description,
-    url: "/tables-chairs",
-  },
-};
+export const metadata: Metadata = pageMetadata("/tables-chairs", seo.tablesChairs);
 
 export default function LoungeDecorPage() {
   return (
