@@ -3,6 +3,21 @@
 Multi-page rebuild of abovealltents.com. Next.js 15 (App Router) + TypeScript + Tailwind v4.
 Teal (from his logo) + navy on white, centered-logo header, hero photo carousel.
 
+## Overview
+
+**Problem.** A tent, inflatable and party-rental business on Long Island needed a site customers could use on a phone to work out what size tent fits their guest count and ask for a quote.
+
+**Outcome.** Designed, built, delivered and handed over on the client's own domain, [abovealltents.com](https://abovealltents.com). No traffic or conversion figures are claimed here; none have been recorded with a source.
+
+**Design decisions.**
+- **All content in one typed file** (`data/site.ts`): copy, photos, phone numbers, inventory and the sizing chart. Changing a price or phone number is a data edit, not a code change; items with no price render "Call for pricing."
+- **A sizing calculator** (`/tents`) with documented rules: 8 chairs per table recommended, up to 10; capacity uses the maximum; above 80 guests it combines tents.
+- **Four focused pages** (tents, inflatables, tables and chairs, contact) rather than one long page.
+
+**Stack.** Next.js 15 (App Router), TypeScript, Tailwind CSS v4, Vercel.
+
+> The "Before launch" list at the bottom was written for the pre-launch demo and may be out of date; check it against the live site before relying on it.
+
 ## Pages
 
 - `/` — carousel hero, category tiles (B&W → color on hover), about band, contact
