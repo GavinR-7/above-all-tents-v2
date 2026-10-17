@@ -14,7 +14,7 @@ Teal (from his logo) + navy on white, centered-logo header, hero photo carousel.
 - **A sizing calculator** (`/tents`) with documented rules: 8 chairs per table recommended, up to 10; capacity uses the maximum; above 80 guests it combines tents.
 - **Four focused pages** (tents, inflatables, tables and chairs, contact) rather than one long page.
 
-**Stack.** Next.js 15 (App Router), TypeScript, Tailwind CSS v4, Vercel.
+**Stack.** Next.js 15 (App Router), TypeScript, Tailwind CSS v4. The live site is served from the web contractor's server through a deploy webhook (the Deploy section below describes the original Vercel demo setup).
 
 > The "Before launch" list at the bottom was written for the pre-launch demo and may be out of date; check it against the live site before relying on it.
 
