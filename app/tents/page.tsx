@@ -1,19 +1,11 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/pageMetadata";
 import { PageHero, CtaBand } from "@/components/PageBlocks";
 import SizingCalculator from "@/components/SizingCalculator";
 import { CALL_FOR_PRICING, photos, seo, tentPage, tents } from "@/data/site";
 import GalleryLightbox from "@/components/GalleryLightbox";
 
-export const metadata: Metadata = {
-  title: seo.tents.title,
-  description: seo.tents.description,
-  alternates: { canonical: "/tents" },
-  openGraph: {
-    title: seo.tents.title,
-    description: seo.tents.description,
-    url: "/tents",
-  },
-};
+export const metadata: Metadata = pageMetadata("/tents", seo.tents);
 
 export default function TentsPage() {
   return (
