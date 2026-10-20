@@ -22,15 +22,22 @@ const decode = (s) => s.replace(/&amp;/g, "&").replace(/&#x27;/g, "'").replace(/
 const home = await get("/");
 const blocks = [...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
 if (blocks.length === 0) out("FAIL", "no JSON-LD on /");
+// Every block must parse; the LocalBusiness checks apply only to LocalBusiness
+// blocks, so adding WebSite, BreadcrumbList or FAQPage markup doesn't fail them.
+const parsed = [];
 for (const [, raw] of blocks) {
-  let ld;
   try {
-    ld = JSON.parse(raw);
+    const ld = JSON.parse(raw);
+    out("PASS", `JSON-LD parses (@type ${ld["@type"]})`);
+    parsed.push(ld);
   } catch (e) {
     out("FAIL", `JSON-LD does not parse: ${e.message}`);
-    continue;
   }
-  out("PASS", `JSON-LD parses (@type ${ld["@type"]})`);
+}
+const isLocalBusiness = (ld) => [ld["@type"]].flat().includes("LocalBusiness");
+const businesses = parsed.filter(isLocalBusiness);
+if (blocks.length && !businesses.length) out("FAIL", "no LocalBusiness JSON-LD on /");
+for (const ld of businesses) {
   if (ld["@context"] !== "https://schema.org") out("FAIL", "@context is not https://schema.org");
   for (const key of ["name", "url", "telephone", "address", "image", "geo", "openingHoursSpecification", "areaServed", "sameAs"]) {
     out(ld[key] ? "PASS" : "FAIL", `has ${key}`);
