@@ -1,17 +1,18 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { z } from "zod";
+import { checkFormSpam, countRejection } from "@/lib/formSpam";
 
-type QuoteRequestBody = {
-  name?: string;
-  phone?: string;
-  email?: string;
-  date?: string;
-  guests?: string | number;
-  eventType?: string;
-  referral?: string;
-  interested?: string[];
-  message?: string;
-};
+const optionalText = z.string().trim().max(5000).optional();
+const quoteSchema = z.object({
+  name: z.string().trim().min(1).max(120),
+  phone: z.string().trim().min(1).max(40),
+  email: z.string().trim().email().max(254),
+  date: optionalText,
+  guests: z.union([z.string().max(20), z.number().finite()]).optional(),
+  eventType: optionalText, referral: optionalText, message: optionalText,
+  interested: z.array(z.string().max(120)).max(30).default([]),
+});
 
 function escapeHtml(value: string) {
   return value
@@ -23,22 +24,26 @@ function escapeHtml(value: string) {
 }
 
 export async function POST(request: Request) {
-  let body: QuoteRequestBody;
+  let body: unknown;
   try {
     body = await request.json();
   } catch {
+    countRejection("zod");
     return NextResponse.json({ ok: false, error: "Invalid request body." }, { status: 400 });
   }
 
-  const { name, phone, email, date, guests, eventType, referral, message } = body;
-  const interested = Array.isArray(body.interested) ? body.interested : [];
-
-  if (!name || !phone || !email) {
+  const blocked = await checkFormSpam(body, request);
+  if (blocked) return blocked;
+  const parsed = quoteSchema.safeParse(body);
+  if (!parsed.success) {
+    countRejection("zod");
     return NextResponse.json(
       { ok: false, error: "Name, phone, and email are required." },
       { status: 400 }
     );
   }
+
+  const { name, phone, email, date, guests, eventType, referral, message, interested } = parsed.data;
 
   const resendApiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.QUOTE_TO_EMAIL;
