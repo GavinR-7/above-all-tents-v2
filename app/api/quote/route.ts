@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
-import { checkFormSpam, countRejection } from "@/lib/formSpam";
+import { checkFormSpam, countRejection, logSubmission } from "@/lib/formSpam";
 
 const optionalText = z.string().trim().max(5000).optional();
 const quoteSchema = z.object({
@@ -102,6 +102,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, error: "Failed to send email." }, { status: 500 });
     }
 
+    logSubmission("above-all-tents-v2");
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("Failed to send quote request email:", err);
