@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { FormProtection, readProtection, resetProtection } from "@/components/FormProtection";
+import { spam } from "@/content/spam";
 import { eventTypes, interests, referralSources } from "@/data/site";
 
 const field =
@@ -19,11 +21,12 @@ export default function QuoteForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const submittedForm = e.currentTarget;
     setError(null);
     setSubmitting(true);
 
     const data = new FormData(e.currentTarget);
-    const payload = { ...Object.fromEntries(data), interested: picked };
+    const payload = { ...Object.fromEntries(data), ...readProtection(submittedForm), interested: picked };
 
     try {
       const res = await fetch("/api/quote", {
@@ -33,13 +36,15 @@ export default function QuoteForm() {
       });
 
       if (!res.ok) {
-        throw new Error("Request failed");
+        const result = await res.json().catch(() => ({}));
+        throw new Error(result.message || result.error || spam.errors.send);
       }
 
       setSubmitted(true);
-    } catch {
-      setError("Something went wrong sending your request — please try again or call us.");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : spam.errors.send);
     } finally {
+      resetProtection(submittedForm);
       setSubmitting(false);
     }
   }
@@ -65,6 +70,7 @@ export default function QuoteForm() {
 
   return (
     <form onSubmit={handleSubmit} className="rounded-2xl border border-line bg-white p-6 shadow-sm md:p-8">
+      <FormProtection />
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label htmlFor="name" className={labelCls}>Name</label>
