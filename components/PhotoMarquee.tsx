@@ -52,6 +52,11 @@ function Frames({ duplicate = false }: { duplicate?: boolean }) {
  * in globals.css) and while the strip is offscreen (`data-pause-offscreen`).
  * Reduced motion drops the second copy and wraps the row; the global
  * reduced-motion rule already sets `animation: none`.
+ *
+ * One row of six tiles is 1632px. The site's column is `max-w-6xl` (72rem,
+ * 1152px), so the strip is that wide and the row covers it for the whole
+ * loop. Left full-bleed, a 1920px window is wider than the row and the track's
+ * right edge opens a blank band at the end of every cycle.
  */
 export default function PhotoMarquee() {
   const { shots, eyebrow, title, cta, href } = homeFilmstrip;
@@ -73,7 +78,7 @@ export default function PhotoMarquee() {
 
       <div
         data-pause-offscreen=""
-        className="marquee mt-8"
+        className="marquee mx-auto mt-8 max-w-6xl"
         style={{ "--marquee-duration": duration } as CSSProperties}
       >
         <div data-marquee-track="" className="flex">

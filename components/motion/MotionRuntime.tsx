@@ -34,13 +34,33 @@ export default function MotionRuntime() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (!document.documentElement.hasAttribute("data-reveal-ready")) return;
-    if (!("IntersectionObserver" in window)) return;
 
-    const pending = Array.from(document.querySelectorAll<HTMLElement>(PENDING_SELECTOR));
-    if (pending.length === 0) return;
+    const pending = () => Array.from(document.querySelectorAll<HTMLElement>(PENDING_SELECTOR));
+    const revealNow = (node: HTMLElement) => {
+      node.style.setProperty("--reveal-i", "0");
+      node.setAttribute("data-revealed", "instant");
+    };
+
+    /*
+     * Reduced motion keeps the thumbnails visible from CSS. If the visitor
+     * then turns that preference off, the CSS override lifts and any element
+     * still missing `data-revealed` goes back to opacity 0, with nobody left
+     * watching it. Mark them revealed while the preference is on, and again
+     * if it is switched on later.
+     */
+    if (media.matches || !("IntersectionObserver" in window)) {
+      pending().forEach(revealNow);
+      const onChange = () => {
+        if (media.matches) pending().forEach(revealNow);
+      };
+      media.addEventListener("change", onChange);
+      return () => media.removeEventListener("change", onChange);
+    }
+
+    const pendingNow = pending();
+    if (pendingNow.length === 0) return;
 
     let observerRan = false;
 
@@ -84,18 +104,26 @@ export default function MotionRuntime() {
     // LCP window. The hero poster is already on screen by then.
     let frame = requestAnimationFrame(() => {
       frame = 0;
-      for (const node of pending) observer.observe(node);
+      for (const node of pendingNow) observer.observe(node);
     });
 
     const net = window.setTimeout(() => {
       if (observerRan) return;
-      pending.forEach((node) => reveal(node, 0, true));
+      pending().forEach((node) => reveal(node, 0, true));
       observer.disconnect();
     }, SAFETY_NET_MS);
+
+    const onChange = () => {
+      if (!media.matches) return;
+      pending().forEach(revealNow);
+      observer.disconnect();
+    };
+    media.addEventListener("change", onChange);
 
     return () => {
       if (frame !== 0) cancelAnimationFrame(frame);
       window.clearTimeout(net);
+      media.removeEventListener("change", onChange);
       observer.disconnect();
     };
   }, [pathname]);

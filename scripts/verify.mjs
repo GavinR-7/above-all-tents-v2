@@ -373,6 +373,35 @@ try {
     `dup ${reduced.dupDisplay} anim ${reduced.anim} row ${reduced.rowLeft}–${reduced.rowRight} scroll ${reduced.scroll}`,
   );
 
+  await open("/", 1920, 1080, false);
+  const wide = await evaluate(
+    send,
+    sessionId,
+    `(() => {
+      const strip = document.querySelector(".marquee");
+      strip.scrollIntoView({ block: "center", behavior: "instant" });
+      const track = strip.querySelector("[data-marquee-track]");
+      const rows = [...track.children];
+      const half = rows.slice(0, rows.length / 2);
+      const halfWidth = half.reduce((sum, row) => sum + row.getBoundingClientRect().width, 0);
+      const box = strip.getBoundingClientRect();
+      const anim = track.getAnimations()[0];
+      anim.currentTime = anim.effect.getTiming().duration - 40;
+      const right = document.elementFromPoint(box.right - 6, box.top + box.height / 2);
+      return {
+        strip: Math.round(box.width),
+        half: Math.round(halfWidth),
+        right: right ? right.tagName : "none",
+        inStrip: !!(right && right.closest(".marquee")),
+      };
+    })()`,
+  );
+  note(
+    "wide filmstrip stays covered",
+    wide.strip <= 1152 && wide.half >= wide.strip - 1 && wide.inStrip ? "PASS" : "FAIL",
+    `strip ${wide.strip}px half ${wide.half}px right ${wide.right}`,
+  );
+
   await open("/tents", 390, 844, false);
   const galleryBefore = await evaluate(
     send,
@@ -445,6 +474,28 @@ try {
     "gallery visible under reduced motion",
     galleryReduced.hidden === 0 && galleryReduced.scroll <= galleryReduced.client + 1 ? "PASS" : "FAIL",
     `${galleryReduced.hidden} hidden, scroll ${galleryReduced.scroll}`,
+  );
+
+  await send(
+    "Emulation.setEmulatedMedia",
+    { features: [{ name: "prefers-reduced-motion", value: "no-preference" }] },
+    sessionId,
+  );
+  await delay(300);
+  const toggled = await evaluate(
+    send,
+    sessionId,
+    `(() => {
+      const buttons = [...document.querySelectorAll("[data-reveal]")];
+      const hidden = buttons.filter((el) => getComputedStyle(el).opacity !== "1").length;
+      const marked = buttons.filter((el) => el.hasAttribute("data-revealed")).length;
+      return { count: buttons.length, hidden, marked };
+    })()`,
+  );
+  note(
+    "gallery stays visible when reduced motion is turned off",
+    toggled.count > 0 && toggled.hidden === 0 && toggled.marked === toggled.count ? "PASS" : "FAIL",
+    `${toggled.hidden} hidden, ${toggled.marked}/${toggled.count} marked`,
   );
 
   ws.close();
