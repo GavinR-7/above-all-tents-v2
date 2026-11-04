@@ -4,7 +4,14 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StickyCallBar from "@/components/StickyCallBar";
+import MotionRuntime from "@/components/motion/MotionRuntime";
 import { about, business, photos, seo, siteUrl } from "@/data/site";
+
+// Sets the attribute the reveal rules wait for, before first paint. No
+// JavaScript, a crawler, or a CSP that blocks inline scripts leaves it unset,
+// and then nothing is hidden. Reduced motion is overridden in globals.css,
+// so this does not have to read the media query itself.
+const ARM_REVEALS = `(function(){try{document.documentElement.setAttribute("data-reveal-ready","")}catch(e){}})()`;
 
 // Self-hosted at build time and preloaded, so there is no render-blocking
 // request to fonts.googleapis.com. Both are variable fonts, so one file per
@@ -93,6 +100,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${quicksand.variable} ${nunitoSans.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: ARM_REVEALS }} />
+      </head>
       <body>
         <script
           type="application/ld+json"
@@ -104,6 +114,7 @@ export default function RootLayout({
         {/* Spacer so the mobile call bar never covers the footer */}
         <div className="h-[calc(4rem+env(safe-area-inset-bottom))] lg:hidden" aria-hidden="true" />
         <StickyCallBar />
+        <MotionRuntime />
       </body>
     </html>
   );

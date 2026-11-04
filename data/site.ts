@@ -248,6 +248,24 @@ export const hero = {
   subtitle: `Tents, inflatables, and party rentals — family-owned and serving all of Long Island since ${business.since}.`,
 };
 
+// The filmstrip under the homepage hero. These six photos and their alt text
+// were already written as hero slides (see the commented list above). They
+// are not links: a picture that is moving is not a target. `cta` is.
+export const homeFilmstrip = {
+  eyebrow: "Real events",
+  title: "Photos from the rentals",
+  cta: "See the tents",
+  href: "/tents",
+  shots: [
+    { src: photos.tents.old1, alt: "Event tent rental on Long Island" },
+    { src: photos.inflatables.f, alt: "Inflatable bouncy castle" },
+    { src: photos.tents.new1, alt: "High-peak tent set for a backyard party" },
+    { src: photos.tents.new3, alt: "Tent with tables and chairs ready for guests" },
+    { src: photos.lounge.c, alt: "High-top tables and stools around a pool" },
+    { src: photos.inflatables.c, alt: "Inflatable water slide at a summer party" },
+  ],
+};
+
 // --- Home: category tiles (B&W → color on hover, like his current site) -----
 export const categoryTiles = [
   {

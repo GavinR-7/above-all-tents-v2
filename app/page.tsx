@@ -1,5 +1,6 @@
 import Image from "next/image";
 import HeroCarousel from "@/components/HeroCarousel";
+import PhotoMarquee from "@/components/PhotoMarquee";
 import CategoryTiles from "@/components/CategoryTiles";
 import Contact from "@/components/Contact";
 import { about } from "@/data/site";
@@ -8,6 +9,7 @@ export default function Home() {
   return (
     <main>
       <HeroCarousel />
+      <PhotoMarquee />
       <CategoryTiles />
 
       {/* About band */}

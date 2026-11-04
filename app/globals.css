@@ -140,3 +140,103 @@
   html { scroll-behavior: auto; }
   * { transition: none !important; animation: none !important; }
 }
+
+/* ---------------------------------------------------------------------------
+   REVEALS
+   One IntersectionObserver in components/motion/MotionRuntime.tsx adds
+   `data-revealed` when a `[data-reveal]` element arrives.
+
+   The hidden state applies only after the inline script in the root layout
+   has set `data-reveal-ready` before first paint. No JavaScript means the
+   attribute is absent and every thumbnail is visible. These rules are
+   unlayered so a Tailwind opacity utility cannot win by accident. Do not put
+   `opacity-*` on a revealing element.
+
+   `transform` makes an element the containing block for `position: fixed`
+   descendants. Never put `data-reveal` on an ancestor of the lightbox dialog
+   or the sticky call bar.
+--------------------------------------------------------------------------- */
+html[data-reveal-ready] [data-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--reveal-i, 0) * 60ms),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--reveal-i, 0) * 60ms);
+}
+
+html[data-reveal-ready] [data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+html[data-reveal-ready] [data-reveal][data-revealed="instant"] {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-reveal-ready] [data-reveal],
+  html[data-reveal-ready] [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   PHOTO STRIP
+   The track holds the list twice, so translateX(-50%) lands on the second
+   copy and the loop has no seam. Hover and keyboard focus inside the strip
+   pause it. `data-paused` (set while the strip is offscreen) pauses it too.
+   Transform only — the width of the track never animates.
+--------------------------------------------------------------------------- */
+@keyframes marquee-track {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+
+.marquee [data-marquee-track] {
+  width: max-content;
+  animation: marquee-track var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee:hover [data-marquee-track],
+.marquee:focus-within [data-marquee-track] {
+  animation-play-state: paused;
+}
+
+[data-paused],
+[data-paused] * {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow: visible;
+    mask-image: none;
+  }
+
+  .marquee [data-marquee-track] {
+    width: auto;
+    flex-wrap: wrap;
+    animation: none;
+  }
+
+  .marquee [data-marquee-duplicate] {
+    display: none;
+  }
+
+  /* The tiles live in one shrink-0 list. Wrapping the track alone does not
+     wrap them, and a static row is wider than a phone. */
+  .marquee [data-marquee-row] {
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+    row-gap: 1rem;
+  }
+}

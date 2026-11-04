@@ -72,8 +72,15 @@ export default function GalleryLightbox({
 
   return (
     <section className="mx-auto max-w-6xl px-5 py-16 md:py-20">
-      <p className="eyebrow">Photos</p>
-      <h2 className="mt-2 text-3xl md:text-4xl">{title}</h2>
+      {/* The reveal sits on the heading and each thumbnail, not on this
+          section. The dialog below is position:fixed, and a transform on an
+          ancestor would trap it inside the section. */}
+      <p className="eyebrow" data-reveal="">
+        Photos
+      </p>
+      <h2 className="mt-2 text-3xl md:text-4xl" data-reveal="">
+        {title}
+      </h2>
 
       {/* Uniform grid of thumbnails */}
       <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3">
@@ -82,6 +89,7 @@ export default function GalleryLightbox({
             key={item.src}
             type="button"
             onClick={() => setOpen(i)}
+            data-reveal=""
             className="relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-xl"
             aria-label={`Open slide ${i + 1} of ${photos.length}`}
           >

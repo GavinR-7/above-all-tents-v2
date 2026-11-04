@@ -21,6 +21,9 @@ npm-debug.log*
 
 # typescript
 *.tsbuildinfo
+
+# local verify output (the summary is pasted into the PR, not committed)
+/verify-output/
 next-env.d.ts
 public/*:Zone.Identifier
 
