@@ -30,32 +30,20 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: seo.home.title,
-  description: seo.home.description,
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: seo.home.title,
-    description: seo.home.description,
-    url: siteUrl,
-    siteName: business.name,
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: { card: "summary_large_image" },
 };
 
-// LocalBusiness structured data, assembled entirely from data/site.ts so the
-// markup can't drift from what the page says. "Suffolk County" and
-// "Long Island" are regions, not towns, so they get AdministrativeArea.
+// LocalBusiness + ProfessionalService, assembled from what the page shows.
+// No price range, rating, review count, or coordinates: none of those are
+// printed. "Suffolk County" and "Long Island" are regions, not towns.
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": ["LocalBusiness", "ProfessionalService"],
   "@id": `${siteUrl}/#business`,
   name: business.name,
+  description: seo.home.description,
   url: siteUrl,
   telephone: business.phoneE164,
   email: business.email,
-  priceRange: business.priceRange,
   logo: `${siteUrl}${photos.logoSquare}`,
   image: `${siteUrl}${about.photo}`,
   foundingDate: String(business.since),
@@ -68,11 +56,6 @@ const localBusinessSchema = {
     addressCountry: business.addressParts.country,
   },
   hasMap: business.mapsLink,
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: business.geo.lat,
-    longitude: business.geo.lng,
-  },
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
@@ -85,7 +68,7 @@ const localBusinessSchema = {
     "@type": /County|Long Island/.test(area) ? "AdministrativeArea" : "City",
     name: `${area}, NY`,
   })),
-  sameAs: Object.values(business.social).map((profile) => profile.url),
+  sameAs: [business.social.instagram.url, business.social.facebook.url],
 };
 
 export default function RootLayout({
@@ -96,7 +79,9 @@ export default function RootLayout({
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessSchema).replace(/</g, "\\u003c"),
+          }}
         />
         <Header />
         {children}

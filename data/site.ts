@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 // ============================================================================
 // SINGLE SOURCE OF TRUTH
 // All text, phone numbers, photos, inventory items, and the sizing chart.
@@ -40,10 +42,6 @@ export const business = {
   addressParts,
   address: `${addressParts.street}, ${addressParts.city}, ${addressParts.state} ${addressParts.zip}`,
 
-  // A general affordability signal for Google, not a published price. The site
-  // deliberately shows "Call for pricing" everywhere — see CALL_FOR_PRICING.
-  priceRange: "$$",
-
   // Open every day. `text`/`short` render in the UI; `days`/`opens`/`closes`
   // feed schema.org openingHoursSpecification. One source, both jobs.
   hours: {
@@ -62,29 +60,31 @@ export const business = {
     closes: "21:00",
   },
 
-  // Towns we deliver to. Renders as copy and becomes areaServed in the JSON-LD.
+  // Places named on the page: the about band, the hero's "all of Long Island"
+  // line, and the shop address. This list is areaServed. A town stays off it
+  // until the page says the name.
   serviceAreas: [
     "Smithtown",
     "Saint James",
     "Stony Brook",
     "Hauppauge",
     "Commack",
-    "Huntington",
-    "Port Jefferson",
     "Suffolk County",
     "Long Island",
   ],
   mapsEmbed:
     "https://www.google.com/maps?q=648+Middle+Country+Road+Suite+1+Saint+James+NY+11780&output=embed",
   mapsLink: "https://maps.google.com/?q=648+Middle+Country+Road+Suite+1+Saint+James+NY+11780",
-  // Verified coordinates from the Google Business Profile listing. Feeds the
-  // `geo` block in the JSON-LD.
+  // Shop coordinates from the Google Business Profile. The page prints the
+  // street address and the map link, not these numbers, so the JSON-LD leaves
+  // them out.
   geo: { lat: 40.857988, lng: -73.1557047 },
 
   // Each profile carries its own accessible label, so the aria-label on the
   // icon and the URL it points at can never get out of sync. The Facebook page
   // is shared with the bounce-house side of the business, hence the long name.
-  // `googleBusiness` is structured data only — it gets no footer icon.
+  // `googleBusiness` is the profile short link. The page links `mapsLink`
+  // instead, so this URL is not a sameAs entry.
   social: {
     instagram: {
       url: "https://www.instagram.com/above_all_tent_rental_/",
@@ -287,7 +287,54 @@ export const about = {
   serviceLine:
     "Our shop is in Saint James, and we deliver and set up throughout Smithtown, Stony Brook, Hauppauge, Commack, and across Suffolk County.",
   photo: photos.tents.new3,
+  photoAlt: "Above All tent set up for an event",
 };
+
+// One metadata object per route. Titles and descriptions stay the strings in
+// `seo`. The share image is the card already in app/opengraph-image.png.
+// A page that sets its own openGraph drops that file image, so each page
+// points at it again.
+const shareImage = {
+  url: "/opengraph-image.png",
+  width: 1200,
+  height: 630,
+  alt: "Above All Tent Rentals — tent and party rentals on Long Island since 2005",
+};
+
+const pagePath = {
+  home: "/",
+  tents: "/tents",
+  inflatables: "/inflatables",
+  mechanicalBull: "/mechanical-bull",
+  tablesChairs: "/tables-chairs",
+  contact: "/contact",
+} as const satisfies Record<keyof typeof seo, string>;
+
+export function pageMetadata(page: keyof typeof seo): Metadata {
+  const { title, description } = seo[page];
+  const path = pagePath[page];
+
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      title,
+      description,
+      url: path,
+      siteName: business.name,
+      locale: "en_US",
+      type: "website",
+      images: [shareImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [shareImage.url],
+    },
+  };
+}
 
 // ============================================================================
 // TENTS

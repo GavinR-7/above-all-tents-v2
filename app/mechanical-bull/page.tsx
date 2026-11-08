@@ -1,19 +1,9 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { PageHero, CtaBand } from "@/components/PageBlocks";
 import GalleryLightbox from "@/components/GalleryLightbox";
-import { bull, business, CALL_FOR_PRICING, photos, seo } from "@/data/site";
+import { bull, business, CALL_FOR_PRICING, pageMetadata, photos } from "@/data/site";
 
-export const metadata: Metadata = {
-  title: seo.mechanicalBull.title,
-  description: seo.mechanicalBull.description,
-  alternates: { canonical: "/mechanical-bull" },
-  openGraph: {
-    title: seo.mechanicalBull.title,
-    description: seo.mechanicalBull.description,
-    url: "/mechanical-bull",
-  },
-};
+export const metadata = pageMetadata("mechanicalBull");
 
 export default function MechanicalBullPage() {
   return (

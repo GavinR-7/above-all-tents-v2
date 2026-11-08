@@ -2,7 +2,9 @@ import Image from "next/image";
 import HeroCarousel from "@/components/HeroCarousel";
 import CategoryTiles from "@/components/CategoryTiles";
 import Contact from "@/components/Contact";
-import { about } from "@/data/site";
+import { about, pageMetadata } from "@/data/site";
+
+export const metadata = pageMetadata("home");
 
 export default function Home() {
   return (
@@ -24,7 +26,7 @@ export default function Home() {
             <div className="relative aspect-[4/3]">
               <Image
                 src={about.photo}
-                alt="Above All tent set up for an event"
+                alt={about.photoAlt}
                 fill
                 sizes="(min-width: 1024px) 560px, (min-width: 640px) 90vw, 100vw"
                 className="object-cover"

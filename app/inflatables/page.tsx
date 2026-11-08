@@ -1,18 +1,8 @@
-import type { Metadata } from "next";
 import { PageHero, ItemCard, CtaBand } from "@/components/PageBlocks";
-import { inflatablesPage, photos, seo } from "@/data/site";
+import { inflatablesPage, pageMetadata, photos } from "@/data/site";
 import GalleryLightbox from "@/components/GalleryLightbox";
 
-export const metadata: Metadata = {
-  title: seo.inflatables.title,
-  description: seo.inflatables.description,
-  alternates: { canonical: "/inflatables" },
-  openGraph: {
-    title: seo.inflatables.title,
-    description: seo.inflatables.description,
-    url: "/inflatables",
-  },
-};
+export const metadata = pageMetadata("inflatables");
 
 export default function InflatablesPage() {
   return (
