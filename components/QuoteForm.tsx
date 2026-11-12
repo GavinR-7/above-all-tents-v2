@@ -1,14 +1,57 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { eventTypes, interests, referralSources } from "@/data/site";
+
+type Grecaptcha = {
+  render: (el: HTMLElement, opts: { sitekey: string }) => number;
+  getResponse: (id?: number) => string;
+  reset: (id?: number) => void;
+};
+declare global {
+  interface Window {
+    grecaptcha?: Grecaptcha;
+    onRecaptchaLoad?: () => void;
+  }
+}
 
 const field =
   "w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink outline-none transition-colors focus:border-teal-500";
 const labelCls = "block text-sm font-bold text-navy-900";
 
-export default function QuoteForm() {
+export default function QuoteForm({ recaptchaSiteKey }: { recaptchaSiteKey?: string }) {
   const [submitted, setSubmitted] = useState(false);
+  // Time trap: when this form instance rendered. Set after mount so server and
+  // client markup match; reset each time the form is shown again.
+  const [renderedAt, setRenderedAt] = useState("");
+  const widgetId = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!submitted) setRenderedAt(String(Date.now()));
+  }, [submitted]);
+
+  // reCAPTCHA: only when a site key is configured. The Google script loads
+  // once; the widget is rendered into whichever container is mounted.
+  const captchaRef = useCallback(
+    (el: HTMLDivElement | null) => {
+      if (!el || !recaptchaSiteKey) return;
+      const draw = () => {
+        if (!window.grecaptcha || !el.isConnected || el.childElementCount > 0) return;
+        widgetId.current = window.grecaptcha.render(el, { sitekey: recaptchaSiteKey });
+      };
+      if (window.grecaptcha?.render) return draw();
+      window.onRecaptchaLoad = draw;
+      if (!document.getElementById("recaptcha-script")) {
+        const s = document.createElement("script");
+        s.id = "recaptcha-script";
+        s.src = "https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit";
+        s.async = true;
+        s.defer = true;
+        document.head.appendChild(s);
+      }
+    },
+    [recaptchaSiteKey]
+  );
   const [picked, setPicked] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +66,15 @@ export default function QuoteForm() {
     setSubmitting(true);
 
     const data = new FormData(e.currentTarget);
-    const payload = { ...Object.fromEntries(data), interested: picked };
+    const recaptchaToken = recaptchaSiteKey && window.grecaptcha
+      ? window.grecaptcha.getResponse(widgetId.current ?? undefined)
+      : "";
+    if (recaptchaSiteKey && !recaptchaToken) {
+      setError("Please tick the “I’m not a robot” box before sending.");
+      setSubmitting(false);
+      return;
+    }
+    const payload = { ...Object.fromEntries(data), interested: picked, recaptchaToken };
 
     try {
       const res = await fetch("/api/quote", {
@@ -33,12 +84,16 @@ export default function QuoteForm() {
       });
 
       if (!res.ok) {
-        throw new Error("Request failed");
+        // Token is single-use; a failed attempt needs a fresh tick.
+        if (recaptchaSiteKey) window.grecaptcha?.reset(widgetId.current ?? undefined);
+        const body = (await res.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(res.status === 400 && body?.error ? body.error : "Request failed");
       }
 
       setSubmitted(true);
-    } catch {
-      setError("Something went wrong sending your request — please try again or call us.");
+    } catch (err) {
+      const captchaMsg = err instanceof Error && err.message.includes("robot") ? err.message : null;
+      setError(captchaMsg ?? "Something went wrong sending your request — please try again or call us.");
     } finally {
       setSubmitting(false);
     }
@@ -65,6 +120,12 @@ export default function QuoteForm() {
 
   return (
     <form onSubmit={handleSubmit} className="rounded-2xl border border-line bg-white p-6 shadow-sm md:p-8">
+      <input type="hidden" name="renderedAt" value={renderedAt} />
+      {/* Honeypot: off-screen, skipped by keyboard and screen readers, ignored by autofill. */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+        <label htmlFor="companyUrl">Company website (leave blank)</label>
+        <input id="companyUrl" name="companyUrl" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label htmlFor="name" className={labelCls}>Name</label>
@@ -137,6 +198,8 @@ export default function QuoteForm() {
         <label htmlFor="message" className={labelCls}>Anything else? (optional)</label>
         <textarea id="message" name="message" rows={4} className={`${field} mt-1.5 resize-y`} />
       </div>
+
+      {recaptchaSiteKey && <div ref={captchaRef} className="mt-5 flex justify-center overflow-x-auto" />}
 
       <button type="submit" disabled={submitting} className="btn btn-primary mt-6 w-full disabled:opacity-60">
         {submitting ? "Sending…" : "Request my quote"}
