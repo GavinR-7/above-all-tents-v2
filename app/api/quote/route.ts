@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import {
+  HONEYPOT_FIELD,
+  isHoneypotFilled,
+  isTooFast,
+  verifyRecaptcha,
+} from "@/lib/spam";
 
 type QuoteRequestBody = {
   name?: string;
@@ -11,6 +17,9 @@ type QuoteRequestBody = {
   referral?: string;
   interested?: string[];
   message?: string;
+  companyUrl?: string;
+  renderedAt?: string | number;
+  recaptchaToken?: string;
 };
 
 function escapeHtml(value: string) {
@@ -28,6 +37,23 @@ export async function POST(request: Request) {
     body = await request.json();
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid request body." }, { status: 400 });
+  }
+
+  /*
+   * Spam checks run before anything else. Honeypot and time trap return a
+   * silent 200 so a bot can't tell it was caught; nothing is sent. A failed
+   * captcha is a real 400 because a human can fix it by retrying.
+   */
+  if (isHoneypotFilled(body[HONEYPOT_FIELD]) || isTooFast(body.renderedAt)) {
+    return NextResponse.json({ ok: true });
+  }
+
+  const captcha = await verifyRecaptcha(body.recaptchaToken);
+  if (captcha === "failed") {
+    return NextResponse.json(
+      { ok: false, error: "Please tick the \"I'm not a robot\" box and try again." },
+      { status: 400 }
+    );
   }
 
   const { name, phone, email, date, guests, eventType, referral, message } = body;

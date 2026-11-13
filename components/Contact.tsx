@@ -80,7 +80,7 @@ export default function Contact() {
           </div>
         </div>
 
-        <QuoteForm />
+        <QuoteForm recaptchaSiteKey={process.env.RECAPTCHA_SITE_KEY || undefined} />
       </div>
     </section>
   );
