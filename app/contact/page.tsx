@@ -1,17 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/pageMetadata";
 import Contact from "@/components/Contact";
 import { seo } from "@/data/site";
 
-export const metadata: Metadata = {
-  title: seo.contact.title,
-  description: seo.contact.description,
-  alternates: { canonical: "/contact" },
-  openGraph: {
-    title: seo.contact.title,
-    description: seo.contact.description,
-    url: "/contact",
-  },
-};
+export const metadata: Metadata = pageMetadata("/contact", seo.contact);
 
 export default function ContactPage() {
   return (
