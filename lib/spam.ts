@@ -4,13 +4,13 @@
  * Server-side only. Anything can POST to the endpoint, so every check runs
  * here regardless of what the browser did.
  *
- * Env vars (names only, values live in Vercel):
+ * Env vars (names only, set in your hosting provider's environment, then rebuild):
  *   RECAPTCHA_SITE_KEY    public key, rendered into the page
  *   RECAPTCHA_SECRET_KEY  private key, used to verify tokens
  */
 
 /** How long a person plausibly needs to fill the form. */
-export const MIN_FILL_MS = 3000;
+export const MIN_FILL_MS = 1500;
 
 /** Honeypot field name. Looks worth filling in; humans never see it. */
 export const HONEYPOT_FIELD = "companyUrl";

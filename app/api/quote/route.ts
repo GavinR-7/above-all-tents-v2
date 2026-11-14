@@ -44,7 +44,14 @@ export async function POST(request: Request) {
    * silent 200 so a bot can't tell it was caught; nothing is sent. A failed
    * captcha is a real 400 because a human can fix it by retrying.
    */
-  if (isHoneypotFilled(body[HONEYPOT_FIELD]) || isTooFast(body.renderedAt)) {
+  const dropReason = isHoneypotFilled(body[HONEYPOT_FIELD])
+    ? "honeypot"
+    : isTooFast(body.renderedAt)
+      ? "too-fast"
+      : null;
+  if (dropReason) {
+    // One line, reason + time only. Never log form contents.
+    console.warn(`[spam] dropped submission: ${dropReason} at ${new Date().toISOString()}`);
     return NextResponse.json({ ok: true });
   }
 
